@@ -1,0 +1,337 @@
+\documentclass[a4paper]{article}
+\setlength{\topmargin}{-1.0in}
+\setlength{\oddsidemargin}{-0.2in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{10.5in}
+\setlength{\textwidth}{6.5in}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage[dvipsnames] {xcolor}
+\usepackage{mathpartir}
+
+\hbadness=10000
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Assignment 2},
+    pdfpagemode=FullScreen,
+    }
+\def\endproofmark{$\Box$}
+\newenvironment{proof}{\par{\bf Proof}:}{\endproofmark\smallskip}
+\begin{document}
+\begin{center}
+{\large \bf \color{red}  Department of Computer Science} \\
+{\large \bf \color{red}  Ashoka University} \\
+
+\vspace{0.1in}
+
+{\large \bf \color{blue}  Discrete Mathematics: CS-1104-1 \& CS-1104-2}
+
+\vspace{0.05in}
+
+    { \bf \color{YellowOrange} Assignment 2}
+\end{center}
+\medskip
+
+{\textbf{Collaborators:} None} \hfill {\textbf{Name: Rushil Gupta} }
+
+\bigskip
+\hrule
+
+
+% Begin your assignment here %
+
+
+\section{Straightforward}
+
+    \begin{enumerate}
+    \item \begin{enumerate}
+        \item We know any number greater than 2 always has at least 2 integer factors (1 and itself). Therefore, if we want to define a number with only 3 factors, we need to consider the square of a number. Specifically, the square of a prime (proof will continue later).
+        
+        \[ \text{Let } T = p^2 \text{ where } p \text{ is a prime number.} \]
+
+        \textbf{Proof:}
+        We need to show that $p$ must be a prime. Assume that $p$ is a composite number ($p = a \times b$). Using the fundamental theorem of algebra we can uniquely factorize $a$ and $b$ into prime numbers. 
+
+        \[\therefore a = p_1 \times p_2 \times \ldots \times p_n \text{ and } b = q_1 \times q_2 \times \ldots \times q_m \text{ where } p_i, q_i \text{ are prime numbers.}\]
+        \[ \therefore p^2 = (a \times b)^2 = (p_1^2 \times p_2^2 \times \ldots \times p_n^2) \times (q_1^2 \times q_2^2 \times \ldots \times q_m^2) \]
+
+        Note that a and b will have at least 2 distinct prime factors (Since if only 1 prime factor exists, p is the prime itself). Therefore, $p^2$ will have at least 4 factors. This is a contradiction to our assumption. Therefore, $p$ must be a prime number. \\
+
+        \item Let P be the proposition that $p$ and $q$ are twin primes. \\
+        Let Q be the proposition that $pq + 1$ is a perfect square. \\
+
+        Note: For proposition $P$, it is enough to show $|p - q| = 2$ since we are given $p$ and $q$ to be primes. \\
+    
+        First we will prove $P \rightarrow Q$ is true. We know $p$ and $q$ are twin primes. WLOG, assume $p > q$.
+        \[ \therefore p = q + 2 \implies pq + 1 = p(p + 2) + 1 = p^2 + 2p + 1 = (p + 1)^2 \]
+        Since, $p + 1$ is an integer, $pq + 1$ is a perfect square. \\
+
+        Now, we need to show $Q \rightarrow P$ is true. We know $\exists k (pq + 1 = k^2)$.
+        \[ \therefore pq = k^2 - 1 = (k + 1)(k - 1) \]
+        Since $p$ and $q$ are primes, $p$ and $q$ must be $k + 1$ and $k - 1$ respectively. Therefore, $|p - q| = 2$. \\
+
+
+        Therefore, $P \leftrightarrow Q$ is true. \\ \\
+        \end{enumerate}
+    
+    \item \begin{enumerate}
+        \item Let's consider the proposition $Q \equiv$ "$P(n)$ is true $\forall n \in N$ using strong induction"
+        \[ Q \equiv \forall n ((P(1) \land P(2) \land \dots \land P(n)) \rightarrow P(n+1)) \]
+
+        Now lets, consider the proposition $R \equiv$ "$P(n)$ is true $\forall n \in N$ using weak induction"
+        \[ R \equiv \forall n (P(n) \rightarrow P(n+1)) \]
+
+        We need to know if $Q \rightarrow R$ is true. \\
+        
+        We can show R is true if Q is true since, $Q$ has the premise $P(n)$ to conclude $P(n+1)$. Therefore, $Q \rightarrow R$ is true. \\
+
+        \item This part will use the same proposition $Q$ and $R$ as the previous part. We need to show if $R \rightarrow Q$ is true. \\
+
+        In $R$, we say that $P(n) \rightarrow P(n+1)$. But this comes from the idea that $P(n-1) \rightarrow P(n)$, which then comes from $P(n-2) \rightarrow P(n-1)$ and so on. This recursion only stops when we get $P(b)$ where $b$ is the base case. \\
+
+        So, to say $R$ holds, we need to show $P(b), P(b+1), \dots, P(n)$ are true. This is exactly what $Q$ says. Therefore, $R \rightarrow Q$ is true. \\
+
+        \item We need to show that if the Well Ordering Principle if true and we have the premises and conclusion $P(0), P(n) \rightarrow P(n+1)$, then $P(n)$ is true $\forall n \in N$.
+        \begin{itemize}
+            \item Let $P(n)$ be some predicate. $P(0)$ is true (as given in the premise).
+            \item Start by assuming $\exists k \in N$ such that $P(k)$ is false. 
+            \item Let $S = \{ n \in N | P(n) \text{ is false} \}$. 
+            \item Since $S$ is a non-empty subset of $N$, it must have a smallest element $m$ (W.O.P.).
+            \item Since $P(0)$ is true, $m > 0$. Therefore, $m - 1 \in N$.
+            \item Since $m$ is the smallest element of $S$, $P(m - 1)$ must be true (since $m-1 \notin S$ ).
+            \item Therefore, $P(m - 1) \rightarrow P(m)$ must be true (From our given premise).
+            \item This is a contradiction to our assumption. Therefore, $P(n)$ is true $\forall n \in N$. \\
+        \end{itemize}
+
+        \item We need to show that if $P(n)$ is true $\forall n \in N$ using strong induction, then the Well Ordering Principle is true. \\
+        \begin{itemize}
+            \item Assume that the Well Ordering Principle does not hold. 
+            \item This means $\exists S ((S \ne \phi) \land (S \subset N))$ such that $S$ has no smallest element.
+            \item Let $P(n)$ be the proposition that $n \notin S$.
+            \item We know $P(0)$ is true since $0 \notin S$ (Since if $0 \in S$ then $0$ is the least element).
+            \item We need to show that $P(n) \rightarrow P(n+1)$ is true. 
+            \item Assume that $P(n)$ is true. This means that $n \notin S$.
+            \item Since $S$ has no smallest element, $n+1 \notin S$. Therefore, $P(n+1)$ is true.
+            \item This is a contradiction to our assumption of $S \ne \phi$ since $\forall n (n \notin S)$ by strong induction.
+        \end{itemize}
+
+        Therefore, the Well Ordering Principle is true. \\ \\
+    \end{enumerate}
+
+    \item \begin{enumerate}
+        \item We need to show $\forall x, y \in \mathbb{R} ((x \ne y) \rightarrow ((x > y) \oplus (x < y)))$ is a tauology. \\
+        Given $x \ne y$, consider the following: \\
+        
+        Assume $x > y$. Because of how this assignment is defined, $x < y$ is not possible. Therefore, $(x > y) \land \neg (x < y)$. \\
+
+        Similarly, we casn start by assuming $x < y$. Because of how this assignment is defined, $x > y$ is not possible. Therefore, $(x < y) \land \neg (x > y)$. \\
+
+        So, $((x > y) \land \neg (x < y)) \lor ((x < y) \land \neg (x > y)) \equiv ((x > y) \oplus (x < y))$
+        \[\therefore \forall x, y \in \mathbb{R} ((x \ne y) \rightarrow ((x > y) \oplus (x < y))) \text{ is a tauology.}\]
+        
+        \item The set of complex numbers $\mathbb{C}$ does not satisfy the trichotomy property. This is because the operators $>$ and $<$ are not defined in this set. The only way to compare 2 complex numbers if by using their norm, which is in the set of rational numbers $\mathbb{R}$. \\
+    \end{enumerate}
+
+    \newpage
+    \item We know: (i) There are $n$ teams, (ii) Each team plays all of the others exactly once, (iii) Each team loses at least one game. Need to show that there exist 2 teams which have the same number of wins. \\
+
+    \textbf{Proof:}
+    Each team plays $n-1$ matches (they play each team except themselves). Moreover, since we know each team loses at least 1 match, each team can win at most $n-2$ matches. Therefore, the possible number of wins for each team is $\{0, 1, \dots, n-2\}$ ($n-1$ options). Since there are $n$ teams, by the Pigeonhole Principle, there must be at least 2 teams with same number of wins. \\ \\
+
+
+    \item \begin{enumerate}
+        \item First consider the definition of the GCD function for 2 numbers:\\
+        \[
+            gcd(a,b) = 
+            \left\{
+                \begin{array}{lr}
+                    a & \text{if } b = 0 \\
+                    gcd(b, a \mod b) & \text{if } b \ne 0
+                \end{array}
+                \right\}
+        \]
+
+        We need to show that $gcd(F_{n+1}, F_n) = 1, \forall n \ge 1$. Proving using induction: \\
+
+        \textbf{Base Case:} $n = 1$. We know $F_2 = 1$ and $F_1 = 1 \rightarrow gcd(F_2, F_1) = 1$. \\
+
+        \textbf{Induction Hypothesis:} Assume $gcd(F_{n+1}, F_n) = 1$. We need to show $gcd(F_{n+2}, F_{n+1}) = 1$. \\
+        
+        \textbf{Inductive Step:} 
+        \[ gcd(F_{n+1}, F_{n+2}) = gcd(F_{n+1}, F_{n+1} + F_n) \text{ (By the definition of the Fibonacci sequence)} \]
+        \[ = gcd(F_{n+1}, F_n) \text{ (By the definition of the GCD function)} \]
+        \[ = 1 \text{ (By the Induction Hypothesis)} \]
+        
+        Therefore, $gcd(F_{n+1}, F_n) = 1, \forall n \ge 1$. \\
+
+        \item We need to show $F_{n-1} \cdot F_{n+1} - F_n^2 = (-1)^n, \forall n \ge 2$. This proof will use induction. \\
+        
+        \textbf{Base Case:} $n = 2 \rightarrow F_{n-1} \cdot F_{n+1} - F_n^2 = F_1 \cdot F_3 - F_2^2 = 1 \cdot 2 - 1 = 1$. \\
+
+        \textbf{Induction Hypothesis:} Assume $F_{n-1} \cdot F_{n+1} - F_n^2 = (-1)^n$. \\
+
+        \textbf{Inductive Step:} We need to show $F_{n} \cdot F_{n+2} - F_{n+1}^2 = (-1)^{n+1}$. \\
+        \[ F_{n} \cdot F_{n+2} - F_{n+1}^2 = F_{n} \cdot (F_{n+1} + F_{n}) - F_{n+1}^2 \text{ (By the definition of the Fibonacci sequence)} \]
+        \[ = F_{n+1} \cdot (F_{n} - F_{n+1}) + F_{n}^2  = F_{n+1} \cdot (-F_{n-1}) + F_{n}^2 = -(F_{n+1} \cdot F_{n-1}) + F_{n}^2 = -(-1)^n \text{ (By I.H.)} \]
+        \[ = (-1)^{n+1} \]
+
+        Therefore, $F_{n-1} \cdot F_{n+1} - F_n^2 = (-1)^n, \forall n \ge 2$. \\
+
+        \item Need to show $F_n = \frac{\alpha^n - \beta^n}{\sqrt{5}}, \forall n \ge 0$. This proof will use induction. \\
+        
+        \textbf{Base Cases:} \begin{itemize}
+            \item $n = 0 \rightarrow F_0 = \frac{\alpha^0 - \beta^0}{\sqrt{5}} = \frac{1 - 1}{\sqrt{5}} = 0$. \\
+            \item $n = 1 \rightarrow F_1 = \frac{\alpha^1 - \beta^1}{\sqrt{5}} = \frac{\alpha - \beta}{\sqrt{5}} = 1$. \\
+        \end{itemize}
+        
+
+        \textbf{Induction Hypothesis:} Assume $F_n = \frac{\alpha^n - \beta^n}{\sqrt{5}}$. We need to show $F_{n+1} = \frac{\alpha^{n+1} - \beta^{n+1}}{\sqrt{5}}$. \\
+
+        \textbf{Inductive Step:}
+        \[ F_{n+1} = F_n + F_{n-1} = \frac{\alpha^n - \beta^n}{\sqrt{5}} + \frac{\alpha^{n-1} - \beta^{n-1}}{\sqrt{5}} \]
+        \[ = \frac{\alpha^{n-1}(\alpha + 1) - \beta^{n-1}(\beta + 1)}{\sqrt{5}} = \frac{\alpha^{n+1} - \beta^{n+1}}{\sqrt{5}} \text{ [Since $\alpha, \beta$ are roots of $x^2 - x - 1 = 0$]} \]
+        
+        Therefore, $F_n = \frac{\alpha^n - \beta^n}{\sqrt{5}}, \forall n \ge 0$. \\
+
+    \end{enumerate}
+
+    \newpage
+    \item \begin{enumerate}
+        \item For  any arbitrary $S' \subseteq S$, we need to find an $k$ such that $|S'| = k$ and $S'$ is gaurenteed to have an even number. \\
+        
+        Since $S = \{1, 2, \dots, 2n\}$, there are $n$ odd numbers and $n$ even numbers. Therefore, if $|S'| \ge n+1$ (or $S'$ has at least $n + 1$ elements), then $S'$ is gaurenteed to have an even number. \\
+
+        \item Given $|S'| = n + 1$, we need to show $\exists x,y (gcd(x,y) = 1)$ is true. \\
+
+        Since there are $2n$ possible elements, there are $n$ elements such that all the elements are not consecutive. Since $|S'| = n + 1$, there must be at least 1 pair of consecutive numbers by the Pigeonhole Principle ($n$ holes and $n+1$ pigeons). \\
+        
+        Let's assume these numbers are $a$ and $a+1$. Since $a$ and $a+1$ are consequetive, they are coprime. Therefore, $\exists x,y (gcd(x,y) = 1)$ is true. \\
+
+    \end{enumerate}
+    \end{enumerate}
+
+
+\newpage
+\section{$\neg$Straightforward}
+    \begin{enumerate}
+        \item Let the lightest member of the blue team is $b_1$, the second lightest member of the blue team is $b_2$ and so on. Similarly, the lightest member of the red team is $r_1$, the second lightest member of the red team is $r_2$ and so on.\\
+        
+        Need to show that $b_i$ can be paired with $r_i$ for all $i$, or, $\forall i \in \{1, 2, \dots, n\} (|b_i - r_i| < 1)$. \\
+
+        \textbf{Proof using Induction:}
+        \begin{itemize}
+            \item \textbf{Base Case:} $i = 1$. We know $b_1$ and $r_1$ are the lightest members of their respective teams. Therefore, $b_1$ and $r_1$ can paired together (Since we are given that there is at least one valid way to pair each blue boxer with each red boxer).
+            \item \textbf{Induction Hypothesis:} Assume for some $k$ $\forall i \in \{1, \cdots k\} (|b_i - r_i| < 1)$. 
+            \item \textbf{Inductive Step:} We need to show $|b_{k+1} - r_{k+1}| < 1$.\\
+            
+            If $|b_{k+1} - r_{k+1}| < 1$ because of the weights of the boxers, then we are done. \\
+
+            Othwerwise, we need to prove that when $|b_{k+1} - r_{k+1}| \ge 1$, there is a contradiction. \\
+            If there exists a way for all boxers to be paired, then, for all $b_i$, there is a unique $r_i$ such that $|b_i - r_i| < 1$. Since $|b_{k+1} - r_{k+1}| \ge 1$, we need to check for pairing $b_{k+1}$ with $r_i$ some other $i$. \\
+
+            \textbf{Case 1:} $b_{k+1} \ge r_{k+1} + 1$ \\
+            In this case, $b_{k+1}$ cannot be paired with any $r_i$ since $r_{k+1} > r_i$ forall $i$, so $|b_{k+1} - r_{k+1}| \le |b_{k+1} - r_{k}| \le \cdots \le |b_{k+1} - r_{1}|$. This is a contradiction to our assumption that there is a valid way to pair each blue boxer with each red boxer. \\
+
+            \textbf{Case 2:} $r_{k+1} \ge b_{k+1} - 1$ \\
+            Like the arguement in Case 1, $r_{k+1}$ cannot be paired with any $b_i$ since $b_{k+1} > b_i$ forall $i$. contradiction. \\
+
+            $\therefore |b_{k+1} - r_{k+1}| < 1$ must hold if we know that there is at least one valid way to pair each blue boxer with each red boxer. \\ \\
+
+        \end{itemize}
+
+        \item To show that no matter how much the bishop moves, it will always remain on a black cell, we need to show that the taxicab distance of the bishop is always even.
+        
+        Let the initial position of the bishop be $(x_0, y_0)$ and the final position be $(x_0 + x, y_0 + y)$. Showing that the taxi cab distance is always even using structural induction: \\
+        
+        \begin{itemize}
+            \item \textbf{Base Case:} The bishop is at the initial position $(x_0, y_0)$. The taxicab distance is 0, which is even. \\
+            \item \textbf{Induction Hypothesis:} Assume that the bishop moves some $k \ge 0$, and that the taxicab distance is even. \\
+            \item \textbf{Inductive Step:} We need to show that the taxicab distance is even after the bishop moves $k+1$. \\
+            The bishop can move in 4 directions: $(1, 1), (1, -1), (-1, 1), (-1, -1)$. \\
+            \textbf{Case 1:} The bishop moves in the direction $(1, 1)$. \\
+            The taxicab distance is $|x_0 + k + 1 - (x_0 + k)| + |y_0 + k + 1 - (y_0 + k)| = 2$, which is even. \\
+            \textbf{Case 2:} The bishop moves in the direction $(1, -1)$. \\
+            The taxicab distance is $|x_0 + k + 1 - (x_0 + k)| + |y_0 + k - 1 - (y_0 + k)| = 2$, which is even. \\
+            \textbf{Case 3:} The bishop moves in the direction $(-1, 1)$. \\
+            The taxicab distance is $|x_0 + k - 1 - (x_0 + k)| + |y_0 + k + 1 - (y_0 + k)| = 2$, which is even. \\
+            \textbf{Case 4:} The bishop moves in the direction $(-1, -1)$. \\
+            The taxicab distance is $|x_0 + k - 1 - (x_0 + k)| + |y_0 + k - 1 - (y_0 + k)| = 2$, which is even. \\
+        \end{itemize}
+
+        Therefore, the taxicab distance is always even. \\
+
+        \newpage
+        \item The TA's proof goes wrong in the Induction Step. Their claim is as follows:
+
+        \begin{quote}
+        We know that n students have the same major, so now consider a group of n + 1 students. Remove 1 student from this group and consider the remaining n students. These n students have the same major by Induction Hypothesis.
+        \end{quote}
+
+        This is incorrect because the Induction Hypothesis assumes that there are $n$ students in the group with the same major. Then, in TA's Induction Step, they consider $n+1$ students, but arbitrarily remove 1 student. This means that they are not actaully considering the student's major in the Induction Step. \\
+        
+        If the student removed is not the same student who was added in the step, the TA generalizes the Induction Hypothesis by saying there are $n$ students. This is incorrect since the student removed could have a different major. \\
+    \end{enumerate}
+
+\newpage
+\section{Bonus}
+    \begin{enumerate}
+        \item Before I start with the sub parts, I want to add a third statement, which extends from the second statement.
+        \begin{quote}
+            (iii) $A \cap B = \phi = \{\}$
+        \end{quote}
+
+        \begin{enumerate}
+            \item Need to show $(\forall a_1, a_2 (m \in A)) \land (\forall b_1, b_2 (n \in B))$ \\
+            Since $m$ is the average of $a_1$ and $a_2$, $m$ must be between $a_1$ and $a_2$. Therefore, $m \in A$. \\
+            Similarly, $n \in B$. \\
+
+            \item Showing $P_n \in A, \forall n$ using induction: \\
+            \textbf{Base Case:} $n = 0$. We know $P_0 \in A$ since $P_0 = m$ and $m \in A$ from part (a). \\
+            \textbf{Induction Hypothesis:} Assume $P_k \in A$. \\
+            \textbf{Inductive Step:} We need to show $P_{k+1} \in A$. \\
+
+            We know $P_{k+1} = \frac{a_1 + P_k}{2}$. Since $P_k \in A$m $a_1 \in A$, and $P_{k+1}$ lies between $a_1$ and $P_k$, $P_{k+1} \in A$. \\
+            Therefore, $P_n \in A, \forall n$. \\
+
+            Similarly, we can show $Q_n \in A, \forall n$ (Since $Q_0 \in A$ and $Q_{k+1} = \frac{Q_k + a_2}{2}$). \\
+
+
+            \item Let $p = lub(A)$ and $q = glb(B)$. \\
+            Note: $\forall a \in A (a < q)$ and $\forall b \in B (b > p)$. \\
+            We need to show $p = q$.
+            \begin{itemize}
+                \item Assume $p < q$.
+                \item Since $p < q$, $\exists x (p < x < q)$.
+                \item Since $x < q$, $x \in B$.
+                \item Since $p < x$, $x \in A$.
+                \item This is a contradiction to the fact that $A \cap B = \phi$. \\
+            \end{itemize}
+
+            Similarly, we can show $p > q$ is a contradiction. \\
+            Therefore, $p = q$. \\
+
+            \item \textbf{Base Case:} $j = i$. We know $|s - x_i| < \epsilon$ is true as its given. \\
+            \textbf{Induction Hypothesis:} Assume $|s - x_j| < \epsilon$ is true for some $j$. \\
+            \textbf{Inductive Step:} We need to show $|s - x_{j+1}| < \epsilon$. \\
+
+            We know:
+            \[x_j < x_{j + 1} \implies -x_j > -x_{j+1} \implies s - x_j < s - x_{j + 1}\]
+
+            Since $s > x_i, \forall i$:
+            \[s - x_j < s - x_{j + 1} \implies |s - x_j| < |s - x_{j + 1}| \]
+            \[\therefore |s - x_{j + 1}| > |s - x_{j}| > \epsilon\]
+            \[\therefore |s - x_{j + 1}| < \epsilon \]
+
+            Considering $\exists k, x_k = s$: \\
+            We know we can find some $x_i$ such that $|s - x_i| < \epsilon$ for any $\epsilon > 0$. \\
+            But, when $k=0$, we get the limit of $x_n = s$ as $n \rightarrow \infty$. \\
+            Therefore, no such $k$ exists. \\
+        \end{enumerate}
+    \end{enumerate}
+\end{document}

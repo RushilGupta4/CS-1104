@@ -1,0 +1,500 @@
+\documentclass[a4paper]{article}
+\setlength{\topmargin}{-1.0in}
+\setlength{\oddsidemargin}{-0.2in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{10.5in}
+\setlength{\textwidth}{6.5in}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage[dvipsnames] {xcolor}
+\usepackage{graphicx}
+
+\hbadness=10000
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Assignment 7},
+    pdfpagemode=FullScreen,
+    }
+\def\endproofmark{$\Box$}
+\newenvironment{proof}{\par{\bf Proof}:}{\endproofmark\smallskip}
+\begin{document}
+\begin{center}
+{\large \bf \color{red}  Department of Computer Science} \\
+{\large \bf \color{red}  Ashoka University} \\
+
+\vspace{0.1in}
+
+{\large \bf \color{blue}  Discrete Mathematics: CS-1104-1 \& CS-1104-2}
+
+\vspace{0.05in}
+
+    { \bf \color{YellowOrange} Assignment 7}
+\end{center}
+\medskip
+
+{\textbf{Collaborators:} None} \hfill {\textbf{Name: Rushil Gupta} }
+
+\bigskip
+\hrule
+
+
+\section{Straightforward}
+    \begin{enumerate}
+
+    \item \begin{enumerate}
+        \item $a_n = \begin{cases}
+            a_{n-1} + a_{n-2} + a_{n-5} & \text{if } n > 5 \\
+            1 & \text{if } n = 0 \\
+            0 & \text{otherwise}
+        \end{cases}
+        $ \\
+
+        \item $a_0 = 1, a_1 = 1, a_2 = 2, a_3 = 3, a_4 = 5, a_5 = 9$ \\
+
+        \item $A(x) = \sum_{i=0}^{\infty} a_i x^i = 1 + x + 2x^2 + 3x^3 + 5x^4 + 9x^5 + \sum_{i=6}^{\infty} a_ix^i$ \\
+
+        Using $a_n = a_{n-1} + a_{n-2} + a_{n-5}$, we get:
+        \[A(x) = 1 + x + 2x^2 + 3x^3 + 5x^4 + 9x^5 + \sum_{i=6}^{\infty} (a_{i-1} + a_{i-2} + a_{i-5})x^i\]
+        \[A(x) = 1 + x + 2x^2 + 3x^3 + 5x^4 + 9x^5 + x\sum_{i=6}^{\infty} a_{i-1}x^{i-1} + x^2\sum_{i=6}^{\infty} a_{i-2}x^{i-2} + x^5\sum_{i=6}^{\infty} a_{i-5}x^{i-5}\]
+        \[A(x) = 1 + x + 2x^2 + 3x^3 + 5x^4 + 9x^5 + x\sum_{i=5}^{\infty} a_{i}x^{i} + x^2\sum_{i=4}^{\infty} a_{i}x^{i} + x^5\sum_{i=1}^{\infty} a_{i}x^{i}\]
+
+        \[
+            \begin{split}
+                A(x) =  & 1 + x + 2x^2 + 3x^3 + 5x^4 + 9x^5 \\
+                & + x(A(x) - 1 - x - 2x^2 - 3x^3 - 5x^4) \\
+                & + x^2(A(x) - 1 - x - 2x^2 - 3x^3) \\
+                & + x^5(A(x) - 1) \\
+            \end{split}
+        \]
+
+        \[
+            \begin{split}
+                A(x) =  & 1 + x + 2x^2 + 3x^3 + 5x^4 + 9x^5 \\
+                & + xA(x) - x - x^2 - 2x^3 - 3x^4 - 5x^5 \\
+                & + x^2A(x) - x^2 - x^3 - 2x^4 - 3x^5 \\
+                & + x^5A(x) - x^5 \\
+            \end{split}
+        \]
+
+        \[ A(x) = 1 + xA(x) + x^2A(x) + x^5A(x) \]
+        \[ A(x) (1 - x - x^2 - x^5) = 1 \]
+        \[ A(x) = \frac{1}{1 - x - x^2 - x^5} \] \\
+
+        \item Verifying for $n = 5$. The ways to write 5 as a sum of 1, 2 and 5 are:
+        \begin{itemize}
+            \item 1 + 1 + 1 + 1 + 1
+            \item 1 + 1 + 1 + 2
+            \item 1 + 1 + 2 + 1
+            \item 1 + 2 + 1 + 1
+            \item 2 + 1 + 1 + 1
+            \item 1 + 2 + 2
+            \item 2 + 2 + 1
+            \item 2 + 1 + 2
+            \item 5
+        \end{itemize}
+
+        Clearly, there are 9 ways to write 5 as a sum of 1, 2 and 5. So, $a_5 = 9$. Moreover, the coefficient of $x^5$ in $A(x)$'s taylor expansion is 9, which means $a_5 = 9$. \\
+        \end{enumerate}
+
+
+        \newpage
+        \item \begin{enumerate}
+            \item We have $a_n$ as the number of binary strings of length $n$ which contain the substring "10". Let $b_n$ be the number of binary strings of length $n$ which do not contain the substring "10". This means, $a_n + b_n = 2^n$. \\
+            
+            Now, given a string of size $n$, if it ends with 1, then we just have $a_{n-1}$ ways. If it ends with 0, then we have $a_{n-1}$ ways. But, we also include strings of size $n-2$ with do not have a "10" = $b_{n-2}$, since we can add 1 to their end. This means:
+            \[ a_n = a_{n-1} + a_{n-1} + 2^{n-2} - a_{n-2} \]
+
+            \item For $n \le 1$, $a_n = 0$. \\
+            $a_0 = 0$, $a_1 = 0$, $a_2 = 1$, $a_3 = 4$, $a_4 = 11$. \\
+
+            \item Finding $A(x)$:
+            \[
+                \begin{split}
+                    A(x) &= \sum_{i=0}^{\infty} a_i x^i = 0 + 0x + \sum_{i=2}^{\infty} a_i x^i \\
+                    &= \sum_{i=2}^{\infty} (a_{i-1} + a_{i-1} + 2^{i-2} - a_{i-2})x^i \\
+                    &= \sum_{i=2}^{\infty} (2a_{i-1} + 2^{i-2} - a_{i-2})x^i \\
+                    &= 2x\sum_{i=2}^{\infty} a_{i-1}x^{i-1} + x^2\sum_{i=2}^{\infty} 2^{i-2}x^{i-2} - x^2\sum_{i=2}^{\infty} a_{i-2}x^{i-2} \\
+                    &= 2x\sum_{i=1}^{\infty} a_{i}x^{i} + x^2\sum_{i=0}^{\infty} 2^{i}x^{i} - x^2\sum_{i=0}^{\infty} a_{i}x^{i} \\
+                    &= 2xA(x) - x^2A(x) + x^2(\frac{1}{1-2x}) \\
+                    A(x)(1 - 2x + x^2) &= x^2(\frac{1}{1-2x}) \\
+                    A(x) &= \frac{x^2}{(1-2x)(1-x)^2} \\
+                \end{split}
+            \]
+
+            Finding closed form:
+            \[
+                \begin{split}
+                    A(x) &= \frac{(1 - 2x + x ^2) - (1 - 2x)}{(1-2x)(1-x)^2} \\
+                    &= \frac{1 - 2x + x^2}{(1-2x)(1-x)^2} - \frac{1 - 2x}{(1-2x)(1-x)^2} \\
+                    &= \frac{1}{1-2x} - \frac{1}{(1-x)^2} \\
+                    &= \sum_{i=0}^{\infty} 2^ix^i - \sum_{i=0}^{\infty} (i+1)x^i \\
+                    &= \sum_{i=0}^{\infty} (2^i - i - 1)x^i \\
+                \end{split}
+            \]
+
+            So, $a_n = 2^n - n - 1$. \\ \\
+
+            \item For $n = 4$, $a_4 = 2^4 - 4 - 1 = 11$.
+            
+            Computing manually, there are 16 binary strings of length 4. Out of these, the following do not contain the substring "10" ($b_4$): \\
+
+            \begin{enumerate}
+                \item 0000
+                \item 0001
+                \item 0011
+                \item 0111
+                \item 1111
+            \end{enumerate}
+            
+            Clearly, there are 5 strings which do not contain the substring "10". So, $a_4 = 16 - 5 = 11$.
+
+        \end{enumerate}
+
+        \newpage
+        % Find the number of decimal strings of length n whose no two consecutive digits are prime. Do the following, (a) Find a recurrence relation an whose n−th term denotes the number of strings of length n as described above. (b) Find the initial conditions of the relation. (c) Find the closed form of an using a generating function. (d) Verify your answer by computing it for n = 7.
+        \item \begin{enumerate}
+            \item Given a decimal string of length $n$, we can use the following method to find the number of strings where no two consecutive digits are prime. Let $a_n$ be the number of such strings. \\
+            
+            If the last digit is prime, then the second last digit can be any number except a prime. There are 4 primes, so there are 6 non-primes. This means, there are $4 \cdot 6 \cdot a_{n-2}$ ways. \\
+
+            If the last digit is non-prime, any substring of size 2 can be a prime. This means, there are $6 \cdot a_{n-1}$ ways. \\
+
+            Therefore:
+            \[ a_n = 24a_{n-2} + 6a_{n-1} \] \\
+
+            % Find the initial conditions of the relation.
+            \item When $n = 0$, there is only 1 string, which is the empty string. So, $a_0 = 1$. \\
+            When $n = 1$, there are 10 strings, since any digit can be placed. So, $a_1 = 10$. \\
+
+            Otherwise, if $n \ge 2$, use the recurrence relation to find $a_n$. \\ \\
+
+            % Find the closed form of an using a generating function.
+            \item \[
+              \begin{split}
+                A(x) &= \sum_{i=0}^{\infty} a_i x^i = 1 + 10x + \sum_{i=2}^{\infty} a_i x^i \\
+                &= 1 + 10x + \sum_{i=2}^{\infty} (24a_{i-2} + 6a_{i-1})x^i \\
+                &= 1 + 10x + 24x^2\sum_{i=0}^{\infty} a_{i}x^{i} + 6x\sum_{i=1}^{\infty} a_{i}x^{i} \\
+                &= 1 + 10x + 24x^2A(x) + 6x(A(x) - 1) \\
+                &= 1 + 10x + 24x^2A(x) + 6x(A(x)) - 6x \\
+                A(x)(1 - 24x^2 - 6x) &= 1 + 10x - 6x \\
+                A(x) &= \frac{1 + 4x}{1 - 24x^2 - 6x} \\
+              \end{split}  
+            \]
+
+            % Verify your answer by computing it for n = 4.
+            \item Checking for $n = 4$:\\
+            
+            $a_4 = 24a_2 + 6a_3 = 24a_2 + 6(24a_1 + 6a_2) = 24 \cdot 10 + 6 \cdot (24 \cdot 1 + 6 \cdot 10) = 240 + 6 \cdot 84 = 240 + 504 = 744$. \\
+
+            Using the generating function's taylor expansion, we get the coefficient of $x^4$ as 744, which means $a_4 = 744$. \\
+
+            Clearly, the answer is correct.
+        \end{enumerate}
+        
+        \newpage
+        \item \begin{enumerate}
+            \item We have the following ways to tile: \\
+            \begin{figure}[ht]
+                \centering
+                \includegraphics[width=0.4\linewidth]{"DM A7 Diagram 1".png}
+                \caption{https://math.stackexchange.com/questions/664113/count-the-ways-to-fill-a-4-times-n-board-with-dominoes}
+            \end{figure}
+
+            Clearly, if we do the following types of tilling, we get the following relations:\\
+            \begin{enumerate}
+                \item Type A: $T(4, n-1)$
+                \item Type B: $T(4, n-2)$
+                \item Type C: $T(4, n-2)$
+                \item Type D: $T(4, n-2)$
+                \item Type E: $T(4, n-2)$
+            \end{enumerate}
+
+            Let the ways in which we count for patterns F, G, H be denoted by $f_{fgh} = f_f + f_g + f_h$. \\
+
+            So, $T(4, n) = T(4, n-1) + 4T(4, n-2) + f_{fgh}(n)$. \\
+
+            Now, consider the "F" tile. This tile can only be extended by a "B" or "F" pattern, with the center let domino removed, which means $f_f(n) = f_b(n-2) + f_f(n-2)$. \\
+
+            Also, the "G" tile can only be extended by a "A", "C" or "G" pattern, with the lower left domino removed, which means $f_g(n) = f_a(n-2) + f_c(n-2) + f_g(n-2)$. \\
+
+            Lastly, the "H" tile can only be extended by a "A", "D" or "H" pattern, with the upper left domino removed, which means $f_h(n) = f_a(n-2) + f_d(n-2) + f_h(n-2)$. \\
+
+            Substituting these values in the original equation, we get:
+            \[
+                \begin{split}
+                    T(4, n) =& T(4, n-1) + 4T(4, n-2) + f_{fgh}(n) \\
+                    =& T(4, n-1) + 4T(4, n-2) + f_b(n-2) + f_f(n-2) + f_a(n-2) \\
+                    &+ f_c(n-2) + f_g(n-2) + f_a(n-2) + f_d(n-2) + f_h(n-2) \\
+                    =& T(4, n-1) + 4T(4, n-2) + f_{abcdfgh}(n-2) + f_{a}(n-2) \\
+                    =& T(4, n-1) + 4T(4, n-2) + T(4, n-2) - f_e(n-2) + f_a(n-2) \\
+                \end{split}
+            \]
+
+            Since we already know $f_a(n) = T(4, n-1)$ and $f_e(n) = T(4, n-2)$, we get:
+            \[
+                \begin{split}
+                    T(4, n) =& T(4, n-1) + 4T(4, n-2) + T(4, n-2) + T(4, n - 3) - T(4, n-4) \\
+                    =& T(4, n-1) + 5T(4, n-2) + T(4, n - 3) - T(4, n-4) \\
+                \end{split}
+            \]
+            
+            \item For $T(4, 0) = 1$, $T(4, 1) = 1$, $T(4, 2) = 5$, $T(4, 3) = 11$. \\
+            Also, $T(4, n) = 0 \quad \forall n < 0$. \\
+
+            \newpage
+            \item Firstly, for simplicity, let's denote $T(4, n)$ as $t_n$. \\
+
+            Let $T(x) = \sum_{n=0}^{\infty} t_nx^n$. \\
+
+            Using the initial conditions, we get:
+            \[
+                \begin{split}
+                    T(x) &= 1 + x + 5x^2 + 11x^3 + \sum_{n=4}^{\infty} t_nx^n \\
+                    &=  1 + x + 5x^2 + 11x^3 + \sum_{n=4}^{\infty} (t_{n-1} + 5t_{n-2} + t_{n-3} - t_{n-4})x^n \\
+                    &=  1 + x + 5x^2 + 11x^3 + x\sum_{n=4}^{\infty} t_{n-1}x^{n-1} + 5x^2\sum_{n=4}^{\infty} t_{n-2}x^{n-2} \\
+                    & \quad + x^3\sum_{n=4}^{\infty} t_{n-3}x^{n-3} - x^4\sum_{n=4}^{\infty} t_{n-4}x^{n-4} \\
+                    &=  1 + x + 5x^2 + 11x^3 + x\sum_{n=3}^{\infty} t_{n}x^{n} + 5x^2\sum_{n=2}^{\infty} t_{n}x^{n} \\
+                    & \quad + x^3\sum_{n=1}^{\infty} t_{n}x^{n} - x^4\sum_{n=0}^{\infty} t_{n}x^{n} \\
+                    &=  1 + x + 5x^2 + 11x^3 + x(T(x) - 1 - x - 5x^2) \\
+                    & \quad + 5x^2(T(x) - 1 - x) + x^3(T(x) - 1) - x^4T(x) \\
+                    &=  1 + x + 5x^2 + 11x^3 + xT(x) - x - x^2 - 5x^3 \\
+                    & \quad + 5x^2T(x) - 5x^2 - 5x^3 + x^3T(x) - x^3 - x^4T(x) \\ \\
+                    T(x)(1 - x - 5x^2 - x^3 + x^4) &= 1 - x^2 \\
+                    T(x) &= \frac{1 - x^2}{1 - x - 5x^2 - x^3 + x^4} \\
+                \end{split}
+            \]\\
+            
+            
+            \item Verify for $n = 6$. \\
+            For $n = 6$:\\ 
+            \[
+                \begin{split}
+                    t_6 &= t_5 + 5t_4 + t_3 - t_2 \\
+                    &= (t_4 + 5t_3 + t_2 - t_1) + 5t_4 + t_3 - t_2 \\
+                    &= 6t_4 + 6t_3 - t_1 \\
+                    &=6(36) + 6(11) - 1 = 281 \\
+                \end{split}    
+            \]
+
+            Using taylor's expansion for $T(x)$, and taking the coefficient of $x^6$, we get:
+            $t_6 = 281$. \\
+
+            So, the G.F. is correct.
+        \end{enumerate}
+
+
+        \newpage
+        \item \begin{enumerate}
+            \item \[
+              \begin{split}
+                r^n - 3r^{n-1} - 4r^{n-2} &= 0 \\
+                r^2 - 3r - 4 &= 0 \\
+                (r - 4)(r + 1) &= 0 \\
+              \end{split}  
+            \]
+
+            So, $r = 4, -1 \rightarrow a_n = A(4)^n + B(-1)^n$. \\
+
+            Using the initial conditions, we get:
+            \[
+              \begin{split}
+                a_0 &= A + B = 1 \\
+                a_1 &= 4A - B = 1 \\
+              \end{split}
+            \]
+
+            Using $B = 1 - A$, we get $4A - 1 + A = 1 \rightarrow 5A = 2 \rightarrow A = \frac{2}{5}$. \\
+            So, $B = 1 - \frac{2}{5} = \frac{3}{5}$. \\
+
+            So, $a_n = \frac{2}{5}4^n + \frac{3}{5}(-1)^n$. \\ \\
+
+            \item For this recurrence, we will create 2 components, $a^p_n$ and $a^h_n$. \\
+            
+            First, lets look at the homogeneous part.
+            \[
+                \begin{split}
+                    r^n - 2r^{n-1} &= 0 \\
+                    r^{n-1}(r - 2) &= 0 \\
+                \end{split}
+            \]
+
+            So, $r = 0, 2 \rightarrow a^h_n = A(0)^n + B(2)^n = B(2)^n$. \\
+
+            Now, lets look at the particular part. \\
+            Let $a^p_n = X + Yn + Zn^2 + Wn^3$. \\
+
+            Substituting in the equation, we get:
+            \[
+                \begin{split}
+                    X + Y(n+1) + Z(n+1)^2 + W(n+1)^3 - 2(X + Yn + Zn^2 + Wn^3) &=  7(n+1)^3 \\
+                    X + Y + Z(n^2 + 2n + 1) + W(n^3 + 3n^2 + 3n + 1) - 2X - Yn - 2Zn^2 - 2Wn^3  &= 7(n+1)^3 \\
+                    Y + 2Zn + Z + 3Wn^2 + 3Wn + W - X - Yn - Zn^2 - Wn^3 &= 7(n+1)^3 \\
+                    X + (Yn - Y) + (Zn^2 - 2Zn - Z) + (Wn^3 - 3Wn^2 - 3Wn - W)  &= - 7(n+1)^3 \\
+                    X + Y(n-1) + Z(n^2 - 2n - 1) + W(n^3 - 3n^2 - 3n - 1) &= - 7(n+1)^3 \\
+                \end{split}
+            \]
+
+            Now, using $n = 0, 1, 2, 3-$, we get:
+            \[
+                \begin{split}
+                    X - Y - Z - W &= -7 \\
+                    X + 0 - 2Z - 6W &= -56 \\
+                    X + Y - Z - 11W &= -189 \\
+                    X + 2Y + 2Z - 10W &= -448 \\
+                \end{split}
+            \]
+            
+            Solving, we get, $X = -182, Y = -126, Z = -42, W = -7$. \\
+
+            Now, since $a_n = a^h_n + a^p_n$, we get:
+            \[
+                \begin{split}
+                    a_n &= B(2)^n - 182 - 126n - 42n^2 - 7n^3 \\
+                \end{split}
+            \]
+
+            Again, using $a_0 = 2$, we get $2 = B - 182 \rightarrow B = 184$. \\
+
+            So, $a_n = 184(2)^n - 182 - 126n - 42n^2 - 7n^3$. \\
+
+            \newpage
+            \item Since we have a non-homogeneous recurrence, we will have to solve for the particular and homogeneous parts separately. \\
+            
+            Generally, $a_n = a^h_n + a^p_n$. \\
+
+            First, lets look at the homogeneous part. \\
+            \[
+                \begin{split}
+                    r^n - 5r^{n-1} + 6r^{n-2} &= 0 \\
+                    r^{n-2}(r^2 - 5r + 6) &= 0 \\
+                    (r - 3)(r - 2) &= 0 \\
+                \end{split}
+            \]
+
+            So, $r = 3, 2 \rightarrow a^h_n = A(3)^n + B(2)^n$. \\
+
+            Now, lets look at the particular part. \\
+            Let $a^p_n = X3^nn + Yn + Z$. \\
+
+            Substituting in the equation, we get:
+            \[
+                \begin{split}
+                    a^p_n - 5a^p_{n-1} + 6a^p_{n-2} &= 3^n + 2n \\
+                    X3^nn + Yn + Z - 5(X3^{n-1}(n-1) + Y(n-1) + Z) + 6(X3^{n-2}(n-2) + Y(n-2) + Z) &= 3^n + 2n \\
+                    X3^nn + Yn + Z - 5X3^{n-1}(n-1) - 5Y(n-1) - 5Z + 6X3^{n-2}(n-2) + 6Y(n-2) + 6Z &= 3^n + 2n \\
+                    X(3^nn - 3(3^{n-1})n + 3(3^{n-1})) + Y(2n - 7) + 2Z &= 3^n + 2n \\
+                    X(3^{n-1}) + Y(2n - 7) + 2Z &= 3^n + 2n \\
+                \end{split}
+            \]
+
+            Now, using $n = 0, 1, 2$, we get:
+            \[
+                \begin{split}
+                    \frac{1}{3}X - 7Y + 2Z &= 1 \\
+                    X - 5Y + 2Z &= 5 \\
+                    3X - 3Y + 2Z &= 13 \\
+                \end{split}
+            \]
+
+            Solving, we get $X = 3, Y = 1, Z = \frac{7}{2}$. \\
+            So, $a^p_n = 3(3)^nn + n + \frac{7}{2} = 3^{n+1}n + n + \frac{7}{2}$. \\
+
+            Now, since $a_n = a^h_n + a^p_n$, we get:
+            \[ a_n = A(3)^n + B(2)^n + 3^{n+1}n + n + \frac{7}{2} \]
+
+            Using $a_0 = 1, a_1 = 2$, we get:
+            \[
+                \begin{split}
+                    1 &= A + B + \frac{7}{2} \\
+                    2 &= 3A + 2B + \frac{27}{2} \\
+                \end{split}
+            \]
+            
+            Solving, we get $A = -6.5, B = 4$. \\
+
+            So, $a_n = -6.5(3)^n + (2)^{n+2} + 3^{n+1}n + n + \frac{7}{2}$. \\
+        \end{enumerate}
+
+        
+
+    \end{enumerate}
+
+\newpage
+\section{$\neg$Straightforward}
+    \begin{enumerate}
+        
+        \item \begin{enumerate}
+            \item For a given $n$ days, lets start by considering the placement of the first day's menu. It can be places into any of the $n$ days, except the first day. This means, there are $n-1$ choices for the first day. \\
+            
+            Now, consider some arbitrary day $k$. If the first day's menu is placed on day $k$, and the menu on day $k$ is placed on the first day, then we have to derange the remaining $n-2$ days. This means, there are $D(n-2)$ ways to do this. \\
+
+            Otherwise, if the first day's menu is placed on day $k$, and the menu on day $k$ is placed on some other day, then we have to derange the remaining $n-1$ days. This means, there are $D(n-1)$ ways to do this. \\
+
+            By the principle of exclusion and inclusion, we get:
+            \[ D(n) = (n-1)(D(n-1) + D(n-2)) \]
+
+            Using the base cases, $D(1) = 0, D(2) = 1$, we can calculate $D(n)$ for any $n$. \\ \\
+
+            \item We need to compute:
+            \[ P = \frac{D(7)}{7!} \]
+
+            since there are $7!$ ways to arrange the menu, and $D(7)$ ways to arrange it according to the TA's demands. \\
+
+            $D(7) = 1854$, so $P = \frac{1854}{5040} = \frac{309}{840} = \frac{103}{280}$. \\ \\
+        \end{enumerate}
+
+        % We learnt how to find the generating function, and the exact form of the Lucas numbers denoted by Ln in DS. Let L(x) denote their generating function. We define a new number sequence, Ducas Numbers denoted by Dn. The n−th Ducas number is the coefficient of x n in, [18 + 2 = 20] L ◦ L(x) or the coefficient of x n in the composition of the L with itself. Find the closed form of Dn. Verify your answer by evaluating it for n = 1, 2, 3, 4 and 5. [Hint] What is the coefficient of x n in L ◦ L(x)?
+        \item By definition, the Ducas number is the coefficient of $x^n$ in the product of the generating function of Lucas numbers with itself. \\
+        
+        So:
+        \[ D(x) = L(x) \cdot L(x) \]
+
+        This means, the coefficient of $x^n$ in $D(x)$ is the Ducas number, which is given by: \\
+        \[ d_n = \sum_{i=0}^{n} l_i \cdot l_{n-i} \]
+        where $l_i$ is the $i^{th}$ Lucas number and $d_n$ is the $n^{th}$ Ducas number. \\
+
+        Now, we know the closed form of the generating function of Lucas numbers is:
+        \[ l_n = \left ( \frac{1 + \sqrt{5}}{2} \right )^n + \left ( \frac{1 - \sqrt{5}}{2} \right )^n \]
+
+        For simplicity, let $a = \frac{1 + \sqrt{5}}{2}$ and $b = \frac{1 - \sqrt{5}}{2}$. So:
+        \[ l_n = a^n + b^n \]
+
+        By using the generating function of Ducas numbers, we get:
+        \[ 
+            \begin{split}
+                d_n = & \sum_{i=0}^{n} (a^i + b^i)(a^{n-i} + b^{n-i}) \\
+                = & \sum_{i=0}^{n} (a^{n} + b^{n} + a^ib^{n-i} + a^{n-i}b^i) \\
+            \end{split}
+        \]
+
+
+
+    \end{enumerate}
+
+\newpage
+\section{Bonus}
+    \begin{enumerate}
+        \item The coefficient of the term $x^k$ in the expansion of $(1 - x)^{-n}$ is given by:
+        \[\binom{-n}{k} = \frac{(-n)(-n-1)(-n-2) \ldots (-n-k+1)}{k!}\]
+
+        We can simplify this as:
+        \[\binom{-n}{k} = \frac{(-1)^k n(n+1)(n+2) \ldots (n+k-1)}{k!} = (-1)^k \binom{n+k-1}{k}\]
+
+        This results in:
+        \[\binom{-n}{k} (-x)^k = \binom{n+k-1}{k} x^k\]
+
+        Hence, the series expansion of $(1 - x)^{-n}$ can be rewritten using positive terms as:
+        \[(1 - x)^{-n} = \sum_{k=0}^{\infty} \binom{n+k-1}{k} x^k\]
+
+        This is the generating function.
+    \end{enumerate}
+
+
+\end{document}

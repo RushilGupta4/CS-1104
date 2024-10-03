@@ -1,0 +1,603 @@
+\documentclass[a4paper]{article}
+\setlength{\topmargin}{-1.0in}
+\setlength{\oddsidemargin}{-0.2in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{10.5in}
+\setlength{\textwidth}{6.5in}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage[dvipsnames] {xcolor}
+\usepackage{mathpartir}
+
+\hbadness=10000
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color
+  basicstyle=\footnotesize,        % size of fonts used for the code
+  breaklines=true,                 % automatic line breaking only at whitespace
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{gray},    % comment style
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  keywordstyle=\color{blue},       % keyword style
+%   stringstyle=\color{mymauve},     % string literal style
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Assignment 3 Part 2},
+    pdfpagemode=FullScreen,
+    }
+\def\endproofmark{$\Box$}
+\newenvironment{proof}{\par{\bf Proof}:}{\endproofmark\smallskip}
+\begin{document}
+\begin{center}
+{\large \bf \color{red}  Department of Computer Science} \\
+{\large \bf \color{red}  Ashoka University} \\
+
+\vspace{0.1in}
+
+{\large \bf \color{blue}  Discrete Mathematics: CS-1104-1 \& CS-1104-2}
+
+\vspace{0.05in}
+
+    { \bf \color{YellowOrange} Assignment 3 Part 2}
+\end{center}
+\medskip
+
+{\textbf{Collaborators:} None} \hfill {\textbf{Name: Rushil Gupta} }
+
+\bigskip
+\hrule
+
+
+% Begin your assignment here %
+
+
+\section{Straightforward}
+    \begin{enumerate}
+    
+    \item \begin{enumerate}
+        \item $T(n) = 4T(n/2) + c$ \\
+
+        Using Master Theorem, $a = 4,\ b = 2,\ d = 0$ (Since $f \in O(1)$) \\
+        So, $a > b^d \rightarrow \text{Case 1} \rightarrow T(n) \in \Theta(n^{log_ba}) \rightarrow T(n) \in \Theta(n^2)$ \\
+
+        \item $T(n) = T(n/4) + T(n/2) + n \cdot c$ \\
+        Note that we cannot directly resolve this recurrence using the Master theroem. So, we will need to simplify it. \\
+        
+        Observe that $T(n) \leq 2T(n/2) + n \cdot c$ \\
+        Using Master Theorem, $a = 2,\ b = 2,\ d = 1$ (Since $f = n \cdot c\in O(n)$) \\
+        So, $a = b^d \rightarrow \text{Case 2} \rightarrow T(n) \in \Theta(n \cdot log_{a}n) \rightarrow T(n) \in \Theta(n \cdot log_{2}n)$ \\
+
+
+        % T(n) = T(n − 2) + T(n − 4), where T(0) = T(1) = T(2) = T(3) = c0.
+        \item $T(n) = T(n-2) + T(n-4)$, where $T(0) = T(1) = T(2) = T(3) = c_0$ \\
+        Note that we cannot directly resolve this recurrence using the Master theroem. So, we will need to simplify it. \\
+
+        Observe that:\\
+        $T(n) = T(n-2) + T(n-4) \leq 2T(n-2)$ \\
+        $\leq 2(2T(n-4)) = 4T(n-4)$ \\
+        $\dots$\\
+        $= 2^kT(n-2k)$ \\
+        So, $n-2k = 0 \rightarrow k = n/2$ \\
+        So, $T(n) \leq 2^{n/2}T(0) = 2^{n/2}c_0$ \\
+        So, $T(n) \in O(2^{n/2})$ \\
+
+    \end{enumerate}
+
+    % For the problems below, assume that the cost estimates of the operations for p-bit numbers are: • Cost of one-bit unary left shift (a << 1) / one-bit unary right shift (a >> 1) operators: O(1). • Cost of binary comparison (a < b, a <= b, a > b, a >= b, a == b, a != b) operators: O(1). • Cost of unary increment (++a) or unary decrement (--a) operators: O(1). • Cost of binary addition (a + b) / binary subtraction (a - b) operators: O(p). • Cost of binary multiplication (a * b) operator: O(p 2 ). • Assume cost of other operations like splitting the list, assignment, function call and return as O(1).
+    \item \begin{enumerate}
+        % For every problem, do the following: (a) Definition: Write a formal definition of the problem statement. (b) Decomposition: Decompose the problem recursively for a solution. Write a function in one of Python / C / C++ representing your solution. (c) Deconstruction: Deconstruct the solution and analyze the cost of the solution based on the cost of operators given above. (d) Design: Use memoization if it is needed and / or is useful. Go to step (b) and repeat else go to (e). (e) Iteration: Convert your final recursive solution to an iterative form. If this conversion is not possible, justify. (f) Correctness: Prove the correctness of the recursive (final version only) version of the solutions by invariant, recurrence and induction. Use the formal problem statement as the basis for your proof.
+
+        \item \begin{enumerate}[label=(\roman*)]
+            \item \textbf{Definition:} \\
+            - Input: Integers $m,\ n \ge 0$ \\
+            - Output: Integer The product of $m$ and $n$ \\
+
+            \item \textbf{Decomposition:} \\
+            $m \cdot n = m + m \cdot (n-1)$ \\
+            So, in Python:
+            \begin{lstlisting}[language=python]
+                def product(m, n):
+                    if n == 0:
+                        return 0
+                    return m + product(m, n-1)
+            \end{lstlisting}
+
+            \item \textbf{Deconstruction:} \\
+            - Cost of binary addition: $O(p)$ \\
+            - Cost of binary comparison: $O(1)$ \\
+            - Cost of function call: $O(1)$ \\
+            - Cost of return: $O(1)$ \\
+
+            So, time compexity is given by the recurrence relation: $T(n) = T(n-1) + O(p) + O(1)$ \\
+            $ = T(n-2) + 2O(p) + 2O(1) = \dots = T(0) + nO(p) + nO(1)$ \\
+            Since $p = log_2 n$, $T(n) = O(nlogn)$ (Using Master Theorem) \\
+
+            \newpage
+            \item \textbf{Design:} \\
+            No, since each value of $m \cdot n$ is computed exactly once, we don't need memoization. \\
+
+            \item \textbf{Iteration:} \\
+            Yes, we can convert the recursive solution to an iterative solution.
+            \begin{lstlisting}[language=python]
+                def product(m, n):
+                    for i in range(n):
+                        m += m
+                    return m
+            \end{lstlisting}
+
+            \item \textbf{Correctness:} \\
+            - Base Case: $m \cdot 0 = 0$ \\
+            - Inductive Hypothesis: Assume $\text{multiply}(m, n) = m \cdot n$ holds true for $n$ \\
+            - Inductive Step: $\text{multiply}(m, n+1) = m + \text{multiply}(m, n)$
+            \[= m + m \cdot n \text{  (I.H.)}\]
+            \[= m \cdot (n +1)\]
+            So, the recursive solution is correct. \\
+        \end{enumerate}
+
+        % The n th power of m where m is a positive integer and n is a non-negative integer. Both m and n are of p-bits.
+        \item \begin{enumerate}
+            \item \textbf{Definition:} \\
+            - Input: Integers $m > 0,\ n \ge 0$ \\
+            - Output: Integer The $n^{th}$ power of $m$ \\
+
+            \item \textbf{Decomposition:} \\
+            $m^n = m \cdot m^{n-1}$ \\
+            So, in Python:
+            \lstset{language=Python}
+            \begin{lstlisting}
+                def power(m, n):
+                    if n == 0:
+                        return 1
+                    return m * power(m, n-1)
+            \end{lstlisting}
+
+            \item \textbf{Deconstruction:} \\
+            - Cost of binary multiplication: $O(p^2)$ \\
+            - Cost of binary comparison: $O(1)$ \\
+            - Cost of function call: $O(1)$ \\
+            - Cost of return: $O(1)$ \\
+            - Cost of unary decrement: $O(1)$ \\
+
+            So, time compexity is given by the recurrence relation: $T(n) = T(n-1) + O(p^2) + O(1)$ \\
+            $ = T(n-2) + 2O(p^2) + 2O(1) = \dots = T(0) + nO(p^2) + nO(1)$ \\
+            Since $p = log_2 n$, $T(n) = O(n(logn)^2)$ \\
+
+            \item \textbf{Design:} \\
+            No, since each value of $m^n$ is computed exactly once, we don't need memoization. \\
+
+            \item \textbf{Iteration:} \\
+            Yes, we can convert the recursive solution to an iterative solution.
+            \lstset{language=Python}
+            \begin{lstlisting}
+                def power(m, n):
+                    result = 1
+                    for i in range(n):
+                        result *= m
+                    return result
+            \end{lstlisting}
+
+            \item \textbf{Correctness:} \\
+            - Base Case: $m^0 = 1$ \\
+            - Inductive Hypothesis: Assume $\text{power}(m, n) = m^n$ holds true for $n$ \\
+            - Inductive Step: $m^{n+1} = m \cdot power(m, n)$
+            \[= m \cdot m^n \text{  (I.H.)}\]
+            \[= m^{n+1}\]
+            So, the recursive solution is correct. \\
+        \end{enumerate}
+    \end{enumerate}
+
+    \newpage
+    \item \begin{enumerate}
+        % Find length of given string s. Assume the first out of bound character in the string is the character literal ‘\0’.
+        \item \textbf{Definition:} \\
+        - Input: String $s$ \\
+        - Output: Integer The length of the string $s$ \\
+
+        \item \textbf{Decomposition:} \\
+        $|s| = 1 \text{if} s[0] = \backslash 0 \text{ else } 1 + |s[1:]|$ \\
+
+        So, in Python:
+        \lstset{language=Python}
+        \begin{lstlisting}
+            def length(s):
+                if s[0] == '\0':
+                    return 1
+                return 1 + length(s[1:])
+        \end{lstlisting}
+
+        \item \textbf{Deconstruction:} \\
+        - Cost of binary comparison: $O(1)$ \\
+        - Cost of function call: $O(1)$ \\
+        - Cost of return: $O(1)$ \\
+        - Cost of assignment: $O(1)$ \\
+
+        So, time compexity is given by the recurrence relation: $T(n) = T(n-1) + O(1)$ \\
+        $ = T(n-2) + 2O(1) = \dots = T(0) + nO(1)$ \\
+        So, $T(n) = O(n)$ \\
+
+        \item \textbf{Design:} \\
+        No, since each value of $|s|$ is computed exactly once, we don't need memoization. \\
+
+        \item \textbf{Iteration:} \\
+        Yes, we can convert the recursive solution to an iterative solution.
+        \lstset{language=Python}
+        \begin{lstlisting}
+            def length(s):
+                count = 0
+                while s[count] != '\0':
+                    count += 1
+                return count
+        \end{lstlisting}
+
+        \item \textbf{Correctness:} \\
+        - Base Case: $|s| = 1$ if $s[0] = \backslash 0$ \\
+        - Inductive Hypothesis: Assume $\text{length}(s) = |s|$ holds true for $s$ for some $P(k)$ \\
+        - Inductive Step: $P(k + 1) \equiv \text{length}(s) = |s|$ holds true for $s$ \\
+        $\text{lenght}(s) = 1 + \text{length}(s[1:])$ \\
+        $= 1 + |s[1:]| = 1 + k$ (I.H.) \\
+        $= k + 1$ \\
+        So, the recursive solution is correct. \\ \\
+    \end{enumerate}
+
+    % Given two p-bit non-negative integers a, b, find a mod b without division. (Obviously you are not allowed to use the in-built % (mod) operator).
+    \item \begin{enumerate}
+        \item \textbf{Definition:} \\
+        - Input: Integers $a,\ b \ge 0$ \\
+        - Output: Integer The value of $a \mod b$ \\
+
+        \item \textbf{Decomposition:} \\
+        $a \mod b = a - b \text{ if } a < b \text{ else } (a - b) \mod b$ \\
+        So, in Python:
+        \lstset{language=Python}
+        \begin{lstlisting}
+            def mod(a, b):
+                if a < b:
+                    return a
+                return mod(a - b, b)
+        \end{lstlisting}
+
+        \item \textbf{Deconstruction:} \\
+        - Cost of binary subtraction: $O(p)$ \\
+        - Cost of binary comparison: $O(1)$ \\
+        - Cost of function call: $O(1)$ \\
+        - Cost of return: $O(1)$ \\
+
+        So, time compexity is given by the recurrence relation:\\
+        $T(a) = T(a-b) + O(p) + O(1)$ \\
+        $ = T(a-2b) + 2O(p) + 2O(1) = \dots = T(a - kb) + kO(p) + kO(1)$ \\
+        Since $a - kb < b$, $T(a) = O(p)$ \\
+        But, since $p = log_2 n$, $T(a) = O(loga)$ \\
+
+        \item \textbf{Design:} \\
+        No, since each value of $a \mod b$ is computed exactly once, we don't need memoization. \\
+
+        \item \textbf{Iteration:} \\
+        Yes, we can convert the recursive solution to an iterative solution.
+        \lstset{language=Python}
+        \begin{lstlisting}
+            def mod(a, b):
+                while a >= b:
+                    a -= b
+                return a
+        \end{lstlisting}
+
+        \item \textbf{Correctness:} \\
+        - Base Case: $a \mod b = a$ if $a < b$ \\
+        - Inductive Hypothesis: Assume $\text{mod}(a, b) = a \mod b$ holds true for $a$ \\
+        - Inductive Step: $\text{mod}(a, b) = (a - b) \mod b$
+    \end{enumerate}
+
+    % Insertion Sort on an array of integers of size n ≥ 0.
+    \item \begin{enumerate}
+        \item \textbf{Definition:} \\
+        - Input: Array $A$ of size $n$ \\
+        - Output: Array The sorted array $A$ \\
+
+        \item \textbf{Decomposition:} \\
+        - Base Case: If $n = 0$, return $A$ \\
+        - Inductive Step: Insert $A[n-1]$ into the sorted array $A[0:n-2]$ so that it is in the correct position \\
+        
+        So, in Python:
+        \lstset{language=Python}
+        \begin{lstlisting}
+            def sort(A):
+                if len(A) <= 1:
+                    return A
+                A[0:len(A)-1] = sort(A[0:len(A)-1])
+                key = A[len(A)-1]
+                i = len(A) - 2
+                while i >= 0 and A[i] > key:
+                    A[i+1] = A[i]
+                    i -= 1
+                A[i+1] = key
+                return A
+        \end{lstlisting}
+
+        \item \textbf{Deconstruction:} \\
+        The time compexity is given by the recurrence relation: $T(n) = T(n-1) + O(n) + O(1)$ \\
+        $ = T(n-2) + 2O(n) + 2O(1) = \dots = T(0) + nO(n) + nO(1)$ \\
+        So, $T(n) = O(n^2)$ \\
+
+        \item \textbf{Design:} \\
+        No, since each value of $A$ is computed exactly once, we don't need memoization. \\
+
+        \item \textbf{Iteration:} \\
+        Yes, we can convert the recursive solution to an iterative solution.
+        \lstset{language=Python}
+        \begin{lstlisting}
+            def sort(A):
+                for i in range(1, len(A)):
+                    key = A[i]
+                    j = i - 1
+                    while j >= 0 and A[j] > key:
+                        A[j+1] = A[j]
+                        j -= 1
+                    A[j+1] = key
+                return A
+        \end{lstlisting}
+
+        \newpage
+        \item \textbf{Correctness:} \\
+        % Inductive Hypothesis: Assume the function works for some k, i.e P(k) holds. Inductive Step: We need to prove 2 algorithms here. The inner loop, and the outer loop. Inner Loop: P(j) : The first j elements of A are sorted Base Case: j = 0. The function returns A, which is the correct answer, as the first element is a singleton, and thus sorted. Inductive Hypothesis: Assume the function works for some k, i.e P(k) holds. Inductive Step: Need to show that P(k + 1) holds. Case 1, A[j + 1] ≥ A[j]. This means P(j + 1) is already true. Case 2, A[j + 1] < A[j]. So, we need to show that A[j + 1] is moved to the correct position. This is done by the swapping operation. So, P(j + 1) holds. Thus, P(j) → P(j + 1), and so, the inner loop is correct. Outer Loop: P(n) : sort(A, n) = Asorted Base Case: n = 0. The function returns A, which is the correct answer, as an empty array is sorted. Inductive Hypothesis: Assume the function works for some k, i.e P(k) holds. Inductive Step: Need to show that P(k + 1) holds. By definition, we have: sort(A, k + 1) = sort(A1, k + 1), where A1 is the array after the first iteration of the inner loop. We know that the singleton sub-array consisting of the element A[0] is sorted (as our inner loop is correct). So, the problem becomes sort(A1, k). By the inductive hypothesis, we know that sort(A1, k) = Asorted. So, sort(A, k + 1) = Asorted. Hence, P(k) → P(k + 1).
+        - Base Case: If $n = 0$, return $A$ \\
+        - Inductive Hypothesis: Assume $\text{insertion\_sort}(A[0:n-1])$ sorts $A[0:n-1]$ \
+        - Inductive Step: Need to show $\text{insertion\_sort}(A[0:n])$ sorts $A[0:n]$ \
+
+        \textbf{Inner Loop:} \\
+        $P(q) \equiv$ The first $q$ elements of $A$ are sorted \\
+        - Base Case: $q = 0$. The function returns $A$, which is trivially true \\
+        - Inductive Hypothesis: Assume the function works for some $k$, which also means $P(k)$ holds \\
+        - Inductive Step: Need to show that $P(k + 1)$ holds \\
+
+        - If $A[q + 1] \geq A[q]$, then it means $P(q + 1)$ is true. \\
+        - Otherwise, $A[q + 1] < A[q]$. Then, we will need to show that $A[q + 1]$ is moved to the correct position.
+        Note that the larger element is moved to the right, and then the next element in checked, and so on. \\
+        Therefore, $P(q + 1)$ holds. \\
+
+        \textbf{Outer Loop:} \\
+        $P(n) \equiv \text{sort}(A, n) = A_{\text{sorted}}$ \\
+        
+        - Base Case: $n = 0$. The function returns $A$, which is trivially true \\
+        - Inductive Hypothesis: Assume the function works for some $k$, which also means $P(k)$ holds \\
+        - Inductive Step: Need to show that $P(k + 1)$ holds \\
+
+        By definition, we have: $\text{sort}(A, k + 1) = \text{sort}(A_1, k + 1)$, where $A_1$ is the array after the first iteration of the inner loop. \\
+        We also know that that $A_i$ is sorted up until the i'th element. \\
+        So, the problem becomes $\text{sort}(A_1, k)$. By the inductive hypothesis, we know that $\text{sort}(A_1, k) = A_{\text{sorted}}$. \\
+        So, $\text{sort}(A, k + 1) = A_{\text{sorted}}$. \\
+    \end{enumerate}
+
+    \end{enumerate}
+
+
+\newpage
+\section{$\neg$Straightforward}
+    \begin{enumerate}
+        % Do the process of Q2 for the Towers of Hanoi problem. Formally, given three towers A, B, C and n disks stacked on A in descending order of weight (from bottom). Move the n disks from A to C using B as an auxillary tower, such that a disk with greater weight is never placed on top of a disk with smaller weight (the reverse is allowed).
+        \item \begin{enumerate}
+            \item \textbf{Definition:} \\
+            - Input: Integers $n \ge 0$ \\
+            - Output: The steps to move $n$ disks from tower $A$ to tower $C$ using tower $B$ as an auxiliary tower \\
+
+            \item \textbf{Decomposition:} \\
+            \begin{enumerate}
+                \item Base Case: If $n = 0$, return \\
+                \item Inductive Step: Move $n-1$ disks from tower $A$ to tower $C$ using tower $B$ as an auxiliary tower. Move disk $n$ from tower $A$ to tower $C$. Move $n-1$ disks from tower $B$ to tower $C$ using tower $A$ as an auxiliary tower. \\
+            \end{enumerate}
+
+            So, in Python:
+            \lstset{language=Python}
+            \begin{lstlisting}
+                def hanoi(n, A, B, C):
+                    if n == 0:
+                        return
+                    hanoi(n-1, A, C, B)
+                    print(f"Move disk {n} from {A} to {C}")
+                    hanoi(n-1, B, A, C)
+            \end{lstlisting}
+
+            \item \textbf{Deconstruction:} \\
+            The time compexity is given by the recurrence relation: $T(n) = 2T(n-1) + O(1)$ \\
+            $ = 2(2T(n-2) + 2O(1)) + 2O(1) = \dots = 2^nT(0) + 2^nO(1)$ \\
+            So, $T(n) = O(2^n)$ \\
+
+            \item \textbf{Design:} \\
+            No, since each value of $n$ is computed exactly once, we don't need memoization. \\
+
+            \item \textbf{Iteration:} \\
+            No, since the recursive solution is the most optimal solution. This is because the problem is inherently recursive and the iterative solution would be much more complex. \\
+
+            \item \textbf{Correctness:} \\
+            \begin{enumerate}
+                \item Base Case: If $n = 0$, return \\
+                \item Inductive Hypothesis: Assume $\text{hanoi}(k, A, C, B)$ moves $k$ disks from tower $A$ to tower $C$ using tower $B$ as an auxiliary tower \\
+                \item Inductive Step: Need to show $\text{hanoi}(k+1, A, C, B)$ moves $k+1$ disks from tower $A$ to tower $C$ using tower $B$ as an auxiliary tower \\
+
+                By the inductive hypothesis, we know that $\text{hanoi}(k, A, C, B)$ moves $k$ disks from tower $A$ to tower $C$ using tower $B$ as an auxiliary tower. \\
+                So, the problem becomes moving the $k+1^{th}$ disk from tower $A$ to tower $C$ using tower $B$ as an auxiliary tower. \\
+                This is done by moving the top $k$ disks from tower $A$ to tower $B$, moving the $k+1^{th}$ disk from tower $A$ to tower $C$, and then moving the $k$ disks from tower $B$ to tower $C$ using tower $A$ as an auxiliary tower. \\
+                Therefore, $\text{hanoi}(k+1, A, C, B)$ moves $k+1$ disks from tower $A$ to tower $C$ using tower $B$ as an auxiliary tower. \\
+            \end{enumerate}
+        \end{enumerate}
+
+        \item \begin{enumerate}
+            % Do the process of Q2 for sorting an array of size n ≥ 0 using Merge Sort.
+            \item \textbf{Definition:} \\
+            - Input: Array $A$ of size $n$ \\
+            - Output: The sorted array $A$ \\
+
+            \item \textbf{Decomposition:} \\
+            \begin{enumerate}
+                \item Base Case: If $n = 0$, return $A$ \\
+                \item Inductive Step: Split the array $A$ into two halves. Sort the first half and the second half. Merge the two sorted halves. \\
+            \end{enumerate}
+
+            So, in Python:
+            \lstset{language=Python}
+            \begin{lstlisting}
+                def merge(A, B):
+                    result = []
+                    i = j = 0
+                    while i < len(A) and j < len(B):
+                        if A[i] < B[j]:
+                            result.append(A[i])
+                            i += 1
+                        else:
+                            result.append(B[j])
+                            j += 1
+                    result += A[i:]
+                    result += B[j:]
+                    return result
+
+                def sort(A):
+                    if len(A) <= 1:
+                        return A
+                    mid = len(A) // 2
+                    left = sort(A[:mid])
+                    right = sort(A[mid:])
+                    return merge(left, right)
+            \end{lstlisting}
+
+            \item \textbf{Deconstruction:} \\
+            The time compexity is given by the recurrence relation: $T(n) = 2T(n/2) + O(n)$ \\
+            Using Master Theorem, $a = 2,\ b = 2,\ d = 1$ (Since $f = n \in O(n)$) \\
+            So, $a = b^d \rightarrow \text{Case 2} \rightarrow T(n) \in \Theta(n \cdot log_{a}n) \rightarrow T(n) \in \Theta(n \cdot log_{2}n)$ \\
+
+            \item \textbf{Design:} \\
+            No, since each value of $A$ is computed exactly once, we don't need memoization. \\
+
+            \item \textbf{Iteration:} \\
+            Yes, we can convert the recursive solution to an iterative solution.
+            \lstset{language=Python}
+            \begin{lstlisting}
+                def merge_sort(A):
+                    stack = []
+
+                    # Split the array into individual elements and append them to the stack
+                    for i in range(len(A)):
+                        stack.append([A[i]])
+                    
+
+                    # Merge the elements in pairs, then merge the pairs in pairs, and so on until only one element is left which is the sorted array
+                    while len(stack) > 1:
+                        A = stack.pop()
+                        B = stack.pop()
+                        stack.append(merge(A, B))
+                    
+                    return stack[0]
+
+                def merge(A, B):
+                    result = []
+                    i = j = 0
+                    while i < len(A) and j < len(B):
+                        if A[i] < B[j]:
+                            result.append(A[i])
+                            i += 1
+                        else:
+                            result.append(B[j])
+                            j += 1
+                    result += A[i:]
+                    result += B[j:]
+                    return result
+            \end{lstlisting}
+
+            \newpage
+            \item \textbf{Correctness:} \\
+            \begin{enumerate}
+                \item Base Case: If $n = 0$, return $A$ \\
+                \item Inductive Hypothesis: Assume $\text{sort}(A[0:n/2])$ and $\text{sort}(A[n/2:n])$ sorts $A[0:n/2]$ and $A[n/2:n]$ \\
+                \item Inductive Step: Need to show $\text{sort}(A)$ sorts $A$ \\
+
+                By the inductive hypothesis, we know that $\text{sort}(A[0:n/2])$ and $\text{sort}(A[n/2:n])$ sorts $A[0:n/2]$ and $A[n/2:n]$. \\
+                So, the problem becomes merging the two sorted halves. \\
+                This is done by comparing the first element of each half and appending the smaller element to the result. \\
+                Therefore, $\text{sort}(A)$ sorts $A$. \\
+            \end{enumerate}
+        \end{enumerate}
+    \end{enumerate}
+
+\newpage
+\section{Bonus}
+    \begin{enumerate}
+        \item $T(n) = T(\lfloor log_2 n \rfloor) + c$ \\ 
+        
+        Note that: $T(n) \approx T(log_2 n) + O(1)$ \\
+
+        So, $T(n) = T(log_2 (log_2 n) + O(1)) + O(1) = \cdots \approx T(1) + O(log_2 n)$ \\
+
+        So, $T(n) \in \Theta(log_2 n)$ \\
+
+        
+        % Solve the following Two Sum problem along the steps as asked in Q2. Given an array of numbers, return all pairs of numbers in the array that add up to 0. Once you have solved the above problem, comment how you can modify the solution for the following Two Sum problem. Given an array of numbers, return all pairs of numbers in the array that add up to a given number x.
+        \item \begin{enumerate}
+            \item \textbf{Definition:} \\
+            - Input: Array $A$ of size $n$ \\
+            - Output: The pairs of numbers in the array $A$ that add up to $0$ \\
+
+            \item \textbf{Decomposition:} \\
+            \begin{enumerate}
+                \item Base Case: If $n = 0$, return \\
+                \item Inductive Step: Check if $-A[i]$ is in the array. If it is, then add $(A[i], -A[i])$ to the result. \\
+            \end{enumerate}
+
+            So, in Python:
+            \lstset{language=Python}
+            \begin{lstlisting}
+                def two_sum(A):
+                    result = []
+                    for i in range(len(A) // 2):
+                        if -A[i] in A:
+                            result.append((A[i], -A[i]))
+                    return result
+            \end{lstlisting}
+
+            \item \textbf{Deconstruction:} \\
+            The time compexity is given by the recurrence relation: $T(n) = nO(n) + O(1)$ \\
+            So, $T(n) = O(n^2)$ \\
+
+            \item \textbf{Design:} \\
+            Yes, we can use memoization to store the values of $-A[i]$ in a set. This would reduce the time complexity to $O(n)$. \\
+
+            \item \textbf{Iteration:} \\
+            Yes, we can convert the recursive solution to an iterative solution.
+            \lstset{language=Python}
+            \begin{lstlisting}
+                def two_sum(A):
+                    result = []
+                    seen = set()
+                    for i in range(len(A)):
+                        if -A[i] in seen:
+                            result.append((A[i], -A[i]))
+                        seen.add(A[i])
+                    return result
+            \end{lstlisting}
+
+            \textbf{Time Complexity:}\\
+            We have the recurrence relation: $T(n) = nO(1) + O(1)$ \\
+            So, $T(n) = O(n)$ \\
+
+            \item \textbf{Correctness:} \\
+            \begin{enumerate}
+                \item Base Case: If $n = 0$, return \\
+                \item Inductive Hypothesis: Assume $\text{two\_sum}(A[0:n-1])$ returns the pairs of numbers in the array $A[0:n-1]$ that add up to $0$ \\
+                \item Inductive Step: Need to show $\text{two\_sum}(A)$ returns the pairs of numbers in the array $A$ that add up to $0$ \\
+
+                By the inductive hypothesis, we know that $\text{two\_sum}(A[0:n-1])$ returns the pairs of numbers in the array $A[0:n-1]$ that add up to $0$. \\
+                So, the problem becomes checking if $-A[i]$ is in the array. \\
+                If it is, then add $(A[i], -A[i])$ to the result. \\
+                Therefore, $\text{two\_sum}(A)$ returns the pairs of numbers in the array $A$ that add up to $0$. \\
+                \end{enumerate}
+
+        \end{enumerate}
+
+    \end{enumerate}
+
+\end{document}

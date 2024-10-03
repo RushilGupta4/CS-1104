@@ -1,0 +1,352 @@
+\documentclass[a4paper]{article}
+\setlength{\topmargin}{-1.0in}
+\setlength{\oddsidemargin}{-0.2in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{10.5in}
+\setlength{\textwidth}{6.5in}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage[dvipsnames] {xcolor}
+\usepackage{mathpartir}
+
+\hbadness=10000
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Assignment 3},
+    pdfpagemode=FullScreen,
+    }
+\def\endproofmark{$\Box$}
+\newenvironment{proof}{\par{\bf Proof}:}{\endproofmark\smallskip}
+\begin{document}
+\begin{center}
+{\large \bf \color{red}  Department of Computer Science} \\
+{\large \bf \color{red}  Ashoka University} \\
+
+\vspace{0.1in}
+
+{\large \bf \color{blue}  Discrete Mathematics: CS-1104-1 \& CS-1104-2}
+
+\vspace{0.05in}
+
+    { \bf \color{YellowOrange} Assignment 3}
+\end{center}
+\medskip
+
+{\textbf{Collaborators:} None} \hfill {\textbf{Name: Rushil Gupta} }
+
+\bigskip
+\hrule
+
+
+% Begin your assignment here %
+
+
+\section{Straightforward}
+    \begin{enumerate}
+    \item \begin{enumerate}
+        \item Let $\mathbb{P} = \{ p_n | n \in \mathbb{N} \}$ be the set of all prime numbers, where $p_n$ is the $n^{th}$ prime number.\\
+        But since $\mathbb{N}$ is countably infinite, we also need to show that there are an infinite number of primes. \\
+        
+        Suppose there are a finite number of primes. \\
+        Let $P = \{ p_1, p_2, \dots, p_n \}$ be the set of all primes. \\
+        Then, we can construct a new number $N = p_1 \cdot p_2 \cdot \dots \cdot p_n + 1$.\\
+        $N$ is not divisible by any of the primes in $P$, so it must be divisible by a new prime number $p_{n+1}$.\\
+        This is a contradiction, so there must be an infinite number of primes.\\
+
+        Now, since we know that there are an infinite number of primes, we can prove that $P$ has the same cardinality as $\mathbb{N}$ by constructing a bijection between the two sets.\\
+
+        Let $f: \mathbb{N} \rightarrow \mathbb{P}$ be a function defined as follows:
+        \begin{align*}
+            f(n) = p_n
+        \end{align*}
+
+        This function is a bijection, so $\mathbb{N}$ and $\mathbb{P}$ have the same cardinality.\\
+
+        \item Let $P_R$ be the set of all points on a circle of radius R.\\
+        Let $P_{R'}$ be the set of all points on a circle of radius R'.\\
+
+        Using the polar coordinate system, we get:\\
+        $P_R = \{ (Rcos(\theta), Rsin(\theta)) \mid \theta \in [0, 2\pi) \}$\\
+        $P_{R'} = \{ (R'cos(\theta), R'sin(\theta)) \mid \theta \in [0, 2\pi) \}$\\
+
+        Let $f: P_R \rightarrow P_{R'}$ be a function defined as follows:
+        \begin{align*}
+            f((Rcos(\theta), Rsin(\theta))) = (R'cos(\theta), R'sin(\theta))
+        \end{align*}
+
+        This function is a bijection, so $P_R$ and $P_{R'}$ have the same cardinality.\\ \\
+    \end{enumerate}
+
+    \item \begin{enumerate}
+        \item Consider the L.H.S:
+        \[\bigcup_{i=1}^n A_i = (x \in A_1) \lor (x \in A_2) \lor ... \lor (x \in A_n)\]
+
+        Now, consider the R.H.S:
+        \[(\bigcap_{i=1}^{n} A_i^c)^c = \neg((x \in A_1^c) \land (x \in A_2^c) \land ... \land (x \in A_n^c))\]
+        \[= \neg((x \notin A_1) \land (x \notin A_2) \land ... \land (x \notin A_n))\]
+        \[= (x \in A_1) \lor (x \in A_2) \lor ... \lor (x \in A_n)\]
+
+        Since the L.H.S and R.H.S are the same, we can conclude that the given statement is true.\\
+
+        \newpage
+        \item Consider the L.H.S:
+        \[\bigcap_{i=1}^n A_i = (x \in A_1) \land (x \in A_2) \land ... \land (x \in A_n)\]
+
+        Now, consider the R.H.S:
+        \[(\bigcup_{i=1}^{n} A_i^c)^c = \neg((x \in A_1^c) \lor (x \in A_2^c) \lor ... \lor (x \in A_n^c))\]
+        \[= \neg((x \notin A_1) \lor (x \notin A_2) \lor ... \lor (x \notin A_n))\]
+        \[= (x \in A_1) \land (x \in A_2) \land ... \land (x \in A_n)\]
+
+        Since the L.H.S and R.H.S are the same, we can conclude that the given statement is true.\\ \\
+    \end{enumerate}
+
+    \item We will use induction to prove the law for $n$ functions.
+    
+    \textbf{Base Case} (\(n = 2\)): By De Morgan's Law for two functions, we know that if we have two invertible functions \( f_1: A_1 \rightarrow A_2 \) and \( f_2: A_2 \rightarrow A_3 \), then 
+    \[(f_2 \circ f_1)^{-1} = f_1^{-1} \circ f_2^{-1}\]
+    is true. \\
+
+
+    \textbf{Inductive Step}: Assume the statement holds for \( n = k \), that is, given invertible functions \( f_1, f_2, \ldots, f_k \), we have:
+    \[(f_k \circ \cdots \circ f_1)^{-1} = f_1^{-1} \circ \cdots \circ f_k^{-1}\]
+    Now, consider \( n = k+1 \) with invertible functions \( f_1, f_2, \ldots, f_k, f_{k+1} \). We need to show that:
+    \[(f_{k+1} \circ f_k \circ \cdots \circ f_1)^{-1} = f_1^{-1} \circ \cdots \circ f_k^{-1} \circ f_{k+1}^{-1}\]
+
+    \begin{proof}
+    Start by considering the composition of the first \( k \) functions and then apply \( f_{k+1} \):
+    \[f_{k+1} \circ (f_k \circ \cdots \circ f_1)\]
+
+    By the base case with $n=2$, we can take the inverse of this composition to be:
+    \[(f_k \circ \cdots \circ f_1)^{-1} \circ f_{k+1}^{-1}\]
+
+    By the induction hypothesis, this is equal to:
+    \[f_1^{-1} \circ \cdots \circ f_k^{-1} \circ f_{k+1}^{-1}\]
+
+    Since function composition is associative, we can rearrange the parentheses without changing the order of the functions:
+    \[f_1^{-1} \circ \cdots \circ (f_k^{-1} \circ f_{k+1}^{-1})\]
+
+    Thus, we have shown that the inverse of the composition of \( k+1 \) functions is the composition of their inverses in reverse order. By PMI, the statement is proved for all natural numbers \( n \).
+    \end{proof}  \\ \\
+
+
+    \item \begin{enumerate}
+        \item False. Consider the case when $(x \in D) \land (x \in A^c)$. Then, $x \notin A$, so $\forall x (x \in A \land x \in D) \equiv False$.\\
+        
+        \item $x \notin A \rightarrow x \in A^c$.\\
+        Now, $\exists x (x \in A^c)$ is only true when $A^c$ is non-empty.\\
+        So, the given statement is true if $A \neq D$ and false if $A = D$.\\
+
+        \item $A^c = x \notin A$.\\
+        $D \backslash A = x \in D \land x \notin A$.\\
+        Since $D$ is the domain of discourse, $x \in D$ is always true.\\
+        So, $A^c = D \backslash A$ is always true.\\
+
+        \item By definition, $D$ being the domain of discourse, $D$ contains all elements.\\
+        So, $D^c := \{x \notin D\}$ is an empty set.\\
+        Since an empty set is a subset of every set, $D^c \subseteq A$ is true.\\
+    \end{enumerate}
+
+    \newpage
+    \item \begin{enumerate}
+        % All subsets of S × S which are vertices of a square.
+        \item Subsets:
+        \begin{itemize}
+            \item $\{(1, 1), (1, 2), (2, 1), (2, 2)\}$
+            \item $\{(2, 1), (2, 2), (3, 1), (3, 2)\}$
+            \item $\{(1, 2), (1, 3), (2, 2), (2, 3)\}$
+            \item $\{(2, 2), (2, 3), (3, 2), (3, 3)\}$
+            \item $\{(1, 1), (1, 3), (3, 1), (3, 3)\}$
+            \item $\{(1, 2), (2, 1), (2, 3), (3, 2)\}$ \\
+        \end{itemize}
+
+        \item Over here, the idea is to find any 3 points such that they do not form a straight line. \\
+
+        So, we can take $T$, which is the set of all subsets of $S \times S$ which are vertices of a triangle:
+        \[T := \{ \{a, b, c\}| (a, b, c \in S \times S) \land \neg(straightLine(a, b, c)) \}\]
+
+        Now, all we need to do is define a function $straightLine(a, b, c)$ which returns true if $a, b, c$ are on the straight line.\\
+
+        We can define this function as follows:
+        \[straightLine(a, b, c) := (a_1 - c_1) \cdot (b_2 - c_2) = (b_1 - c_1) \cdot (a_2 - c_2)\]
+
+        This function returns true if $a, b, c$ are on the same straight line because it checks if the slopes of the lines formed by $a, b$ and $b, c$ are equal. Using python, here are the 76 possible subsets:
+        \begin{align*}
+            \{(1, 1), (1, 2), (2, 3)\}\ & \ \{(1, 3), (2, 1), (2, 3)\}\ & \ \{(2, 1), (2, 3), (3, 2)\}\ & \ \{(2, 3), (3, 1), (3, 2)\}\\
+            \{(2, 2), (2, 3), (3, 1)\}\ & \ \{(1, 2), (1, 3), (2, 2)\}\ & \ \{(1, 3), (2, 2), (2, 3)\}\ & \ \{(1, 1), (2, 3), (3, 1)\}\\
+            \{(1, 1), (1, 2), (3, 1)\}\ & \ \{(1, 1), (2, 1), (2, 3)\}\ & \ \{(2, 1), (2, 2), (3, 2)\}\ & \ \{(2, 1), (2, 3), (3, 1)\}\\
+            \{(2, 2), (2, 3), (3, 3)\}\ & \ \{(1, 3), (3, 1), (3, 2)\}\ & \ \{(1, 2), (2, 1), (3, 3)\}\ & \ \{(1, 2), (3, 2), (3, 3)\}\\
+            \{(2, 1), (2, 3), (3, 3)\}\ & \ \{(1, 2), (2, 1), (2, 3)\}\ & \ \{(1, 3), (3, 1), (3, 3)\}\ & \ \{(1, 1), (1, 3), (3, 2)\}\\
+            \{(1, 3), (2, 2), (3, 2)\}\ & \ \{(1, 3), (3, 2), (3, 3)\}\ & \ \{(1, 1), (2, 3), (3, 2)\}\ & \ \{(1, 1), (3, 1), (3, 2)\}\\
+            \{(1, 1), (1, 3), (3, 3)\}\ & \ \{(1, 1), (2, 2), (2, 3)\}\ & \ \{(1, 1), (2, 2), (3, 2)\}\ & \ \{(1, 2), (2, 3), (3, 2)\}\\
+            \{(2, 2), (2, 3), (3, 2)\}\ & \ \{(2, 2), (3, 1), (3, 3)\}\ & \ \{(2, 1), (3, 2), (3, 3)\}\ & \ \{(2, 2), (3, 2), (3, 3)\}\\
+            \{(1, 2), (2, 1), (3, 1)\}\ & \ \{(1, 1), (2, 2), (3, 1)\}\ & \ \{(1, 1), (1, 3), (2, 3)\}\ & \ \{(1, 2), (3, 1), (3, 3)\}\\
+            \{(1, 3), (2, 1), (3, 3)\}\ & \ \{(1, 3), (2, 3), (3, 2)\}\ & \ \{(1, 1), (3, 2), (3, 3)\}\ & \ \{(1, 1), (2, 1), (3, 3)\}\\
+            \{(2, 1), (2, 2), (3, 3)\}\ & \ \{(1, 3), (2, 3), (3, 1)\}\ & \ \{(1, 2), (1, 3), (3, 3)\}\ & \ \{(1, 3), (2, 2), (3, 3)\}\\
+            \{(2, 1), (3, 1), (3, 2)\}\ & \ \{(1, 2), (1, 3), (3, 1)\}\ & \ \{(1, 1), (2, 3), (3, 3)\}\ & \ \{(2, 2), (3, 1), (3, 2)\}\\
+            \{(1, 1), (1, 3), (2, 2)\}\ & \ \{(1, 1), (3, 1), (3, 3)\}\ & \ \{(1, 2), (2, 2), (2, 3)\}\ & \ \{(1, 2), (3, 1), (3, 2)\}\\
+            \{(1, 2), (1, 3), (3, 2)\}\ & \ \{(1, 2), (2, 2), (3, 3)\}\ & \ \{(1, 1), (1, 3), (2, 1)\}\ & \ \{(1, 1), (1, 3), (3, 1)\}\\
+            \{(1, 2), (2, 1), (3, 2)\}\ & \ \{(1, 3), (2, 1), (3, 2)\}\ & \ \{(1, 3), (2, 1), (2, 2)\}\ & \ \{(1, 3), (2, 1), (3, 1)\}\\
+            \{(1, 1), (1, 2), (3, 2)\}\ & \ \{(1, 1), (2, 1), (3, 2)\}\ & \ \{(1, 2), (2, 2), (3, 1)\}\ & \ \{(2, 1), (2, 2), (3, 1)\}\\
+            \{(1, 1), (1, 2), (2, 1)\}\ & \ \{(1, 1), (2, 1), (2, 2)\}\ & \ \{(1, 2), (1, 3), (2, 3)\}\ & \ \{(1, 1), (1, 2), (2, 2)\}\\
+            \{(2, 3), (3, 2), (3, 3)\}\ & \ \{(1, 2), (2, 3), (3, 1)\}\ & \ \{(1, 2), (2, 3), (3, 3)\}\ & \ \{(2, 1), (3, 1), (3, 3)\}\\
+            \{(1, 2), (1, 3), (2, 1)\}\ & \ \{(2, 3), (3, 1), (3, 3)\}\ & \ \{(1, 2), (2, 1), (2, 2)\}\ & \ \{(1, 1), (1, 2), (3, 3)\}\\
+        \end{align*}
+    \end{enumerate}
+
+    \newpage
+    \item First, let's see if $p$ is a function of $t$.\\
+    For $p$ to be a function of $t$, for every $t$, there should be exactly one $p$. Since $p$ is the position (a single point) based on the time, it is evident that $p$ is a function of $t$.\\
+
+    Now, let's find the domain of $p(t)$.\\
+    We know the recorded motion is from $t = 0$ to $t = n > 0$. So, the domain of $p(t)$ is $[0, n]$.\\
+
+    The image of $p(t)$ is the set of all positions of the particle at any given time.\\
+
+    For $p(t)$ to be injective, for every $t_1 \neq t_2$, $p(t_1) \neq p(t_2)$. This in simple words means that the particle must travel in the same direction (since $p \in \mathbb(R)$). Otherwise, if the particle changes direction or is stationary, it will have the same position at two different times.\\ \\
+
+    \item \begin{enumerate}
+        \item For a bijection to exist, we need each element from $A$ to map to exactly one unique element in $B$.\\
+
+        We know $|A| = |B| = n$. When we start mapping the elements, we see the first element from $A$ can map to any of the $n$ elements from $B$. The second element from $A$ can map to any of the remaining $n-1$ elements from $B$. This goes on till the last element from $A$ can map to the last element from $B$.\\
+
+        So, the total number of bijections is $n \times (n-1) \times \dots \times 1 = n!$\\ \\
+
+        \item First, we show that if $f$ is an injection, then $f$ is a surjection.\\
+        \begin{itemize}
+            \item For $f$ to be an injection, for every $b \in B, \exists a \in A$ such that $f(a) = b$.\\
+            \item Since $|A| = |B| = n$, and $f$ is an injection, $n$ elements from $A$ are mapped to $n$ unique elements in $B$, which implies $f$ is a surjection.\\
+        \end{itemize}
+
+        Now, we show that if $f$ is a surjection, then $f$ is an injection.\\
+        \begin{itemize}
+            \item For $f$ to be a surjection, for every $b \in B, \exists a \in A$ such that $f(a) = b$.\\
+            \item Since $|A| = |B| = n$, and $f$ is a surjection, using the fact that all functions must be well defined, we can say that $n$ elements from $A$ are mapped to $n$ unique elements in $B$, which implies $f$ is an injection.\\
+        \end{itemize}
+
+        Therefore, $f$ is an injection $\leftrightarrow \ f$ is a surjection.\\
+
+        \item For $f$ to be an injection, $|A| \leq |B|$. So, if $m > n$, then there are no injections from $A$ to $B$.\\
+        
+        Now, if $m \leq n$, we need to choose $m$ elements from $n$ elements in $B$. This can be done in $\binom{n}{m}$ ways.\\
+        Now, for each of these $m$ elements, we can map them to any of the $m$ elements in $A$. This can be done in $m!$ ways.\\
+
+        So, the total number of injections is $\binom{n}{m} \times m! = \frac{n!}{(n-m)!m!} \times m! = \frac{n!}{(n-m)!}$\\
+        \end{enumerate}
+
+        % . If the domain and codomain of some function f is the same, say D, then show that Img(f) ⊆ Dom(f) where Img(f) is the image of f and Dom(f) is the domain of f.
+        \item The image of $f$, $Img(f)$, is defined as $\{f(x) | x \in D\}$, where $D = Dom(f)$ is the domain of $f$.\\
+
+        Since $f$ is a function from $D \rightarrow D$, for every $x \in Dom(f)$, $f(x) \in Dom(f)$.\\
+        Now, since $Dom(f) = D$ and $Img(f) = \{f(x) | x \in D\}$, we can say that $Img(f) \subseteq D = Dom(f)$.\\
+
+        Therefore, $Img(f) \subseteq Dom(f)$.\\
+
+        \newpage
+        %Find the left, right or full inverses of the following functions. Prove your results.
+        \item \begin{enumerate}
+            \item Since $n$ is even, $f$ is not injective, since $\forall x (f(-x) = f(x))$. \\
+            
+            A left inverse does not exist because negative numbers do not have a corresponding output in $\mathbb{R}^+ \cap \{0\}$ under $f$. But, a right inverse does exist.\\
+
+            Let $g: R \rightarrow R + \cup \{0\}$ be defined as $g(x) = \sqrt[n]{x}$.\\
+            Then, $f(g(x)) = (g(x))^n = x$.\\ \\
+
+            \item In this case, $f$ is injective and surjection since a unique output is defined for each input. Therefore, $f$ is a bijection and a full inverse exists.\\
+            
+            Let $g: R \rightarrow R$ be defined as $g(x) = \sqrt[n]{x}$.\\
+            Then, $f(g(x)) = (g(x))^n = x$.\\ \\
+
+            \item In this case, $f$ is injective and surjection since a unique output is defined for each input. Therefore, $f$ is a bijection and a full inverse exists.\\
+
+            Let $g: R \rightarrow R + \cup \{0\}$ be defined as $g(x) = e^x$.\\
+            Then, $f(g(x)) = ln(e^x) = x$.\\
+
+            \item In this case, $f$ is a constant function, so it is not injective and not surjective. Therefore, a left, right or full inverse does not exist.\\
+        \end{enumerate}
+
+        % Show that any invertible function f has a unique inverse. More formally, show that if g and h are two unique inverses of f then g = h.
+        % Note: Function equality here means that they have the same graph, that is, they are point-wise equal:
+        % g = h ↔ ∀x (g(x) = h(x))
+
+        \item Let $f$ be an invertible function.\\
+        Let $g$ and $h$ be two unique inverses of $f$.\\
+
+        Since $g$ and $h$ are inverses of $f$, we have:
+        \[f(g(x)) = x\]
+        \[f(h(x)) = x\]
+
+        Now, we need to show that $g = h$.\\
+        \begin{itemize}
+            \item Let's assume that $g \neq h$.\\
+            \item Then, $\exists x$ such that $g(x) \neq h(x)$.\\
+            \item Now, since $f$ is a function, $f(g(x)) = f(h(x))$.\\
+            \item But, $f(g(x)) = x$ and $f(h(x)) = x$.\\
+            \item So, $x = x$, which is true for all $x$.\\
+            \item This is a contradiction, so our assumption that $g \neq h$ is false.\\
+        \end{itemize}
+
+    Therefore, $g = h$.\\
+    
+    \end{enumerate}
+
+
+\newpage
+\section{$\neg$Straightforward}
+    \begin{enumerate}
+        % The given image contains an exercise that deals with ordered pairs, ordered triples, and a generalization to ordered n-tuples using set theory. Here's a breakdown of each part of the exercise: 1. The defining property of ordered pairs ( � 1 , � 1 ) (a 1 ​ ,b 1 ​ ) and ( � 2 , � 2 ) (a 2 ​ ,b 2 ​ ) is that they are equal if and only if both their first components are equal and their second components are equal, i.e. ( � 1 = � 2 ∧ � 1 = � 2 ) (a 1 ​ =a 2 ​ ∧b 1 ​ =b 2 ​ ). 2. Ordered pairs are usually denoted by coordinates in � 2 R 2 (the Cartesian plane). 3. Ordered pairs can be defined using set theory as ( � , � ) : = { { � } , { � , � } } (a,b):={{a},{a,b}}, where the singleton { � } {a} represents the first element in the pair to denote its "order".
+        \item \begin{enumerate}
+            \item Let $(a_1, b_1) := \{\{ a_1\}, \{a_1, b_1 \}\}$, and $(a_2, b_2) := \{\{ a_2\}, \{a_2, b_2 \}\}$.\\
+            
+            Now, we need to show that $(a_1, b_1) = (a_2, b_2) \leftrightarrow (a_1 = a_2 \land b_1 = b_2)$.\\
+
+            Showing $(a_1, b_1) = (a_2, b_2) \rightarrow (a_1 = a_2 \land b_1 = b_2)$:
+            \begin{itemize}
+                \item Let's assume that $(a_1, b_1) = (a_2, b_2)$.\\
+                \item Then, $\{\{ a_1\}, \{a_1, b_1 \}\} = \{\{ a_2\}, \{a_2, b_2 \}\}$.\\
+                \item This implies that $\{ a_1\} = \{ a_2\}$ and $\{a_1, b_1 \} = \{a_2, b_2 \}$.\\
+                \item Since $\{ a_1\} = \{ a_2\}$, $a_1 = a_2$.\\
+                \item Since $\{a_1, b_1 \} = \{a_2, b_2 \}$ and $a_1 = a_2$, $b_1 = b_2$.\\
+                \item Therefore, $(a_1, b_1) = (a_2, b_2) \rightarrow (a_1 = a_2 \land b_1 = b_2)$.\\
+            \end{itemize}
+
+            Showing $(a_1 = a_2 \land b_1 = b_2) \rightarrow (a_1, b_1) = (a_2, b_2)$:
+            \begin{itemize}
+                \item Let's assume that $a_1 = a_2$ and $b_1 = b_2$.\\
+                \item Then, $\{ a_1\} = \{ a_2\}$ and $\{a_1, b_1 \} = \{a_2, b_2 \}$.\\
+                \item This implies that $\{\{ a_1\}, \{a_1, b_1 \}\} = \{\{ a_2\}, \{a_2, b_2 \}\}$.\\
+                \item Therefore, $(a_1 = a_2 \land b_1 = b_2) \rightarrow (a_1, b_1) = (a_2, b_2)$.\\
+            \end{itemize}
+
+            Therefore, $(a_1, b_1) = (a_2, b_2) \leftrightarrow (a_1 = a_2 \land b_1 = b_2)$.\\ \\
+
+
+            \item $(a, b) = \{\{ a\}, \{a, b \}\}$\\
+            \[\therefore (a, b, c) = ((a, b), c) = \{\{\{ a\}, \{a, b \}\}, \{\{\{ a\}, \{a, b \}\}, c \}\}\] \\
+
+            % Construct a recursive definition for an ordered n-tuple (x1, x2, . . . , xn).
+            \item Let $(x_1, x_2, \dots, x_n) := ((x_1, x_2, \dots, x_{n-1}), x_n)$.
+
+            From part (b), we can say  $((x_1, x_2, \dots, x_{n-1}), x_n) = \{\{(x_1, x_2, \dots, x_{n-1})\}, \{(x_1, x_2, \dots, x_{n-1}), x_n\}\}$\\
+
+            We also know, $(x_1, x_2, \dots, x_{n-1}) := ((x_1, x_2, \dots, x_{n-2}), x_{n-1})$
+
+            This goes on till $(x_1, x_2) := \{\{ x_1\}, \{x_1, x_2 \}\}$.\\
+            % Therefore, (x  1 ​  ,x  2 ​  ,…,x  n−1 ​  )={{x  1 ​  },{x  1 ​  ,x  2 ​  },…,{{x  1 ​  },{x  1 ​  ,x  2 ​  },…,x  n−1 ​  }}.
+
+            Therefore, $(x_1, x_2, \dots, x_n) = \{\{\{ x_1\}, \{x_1, x_2 \}\}, \{\{\{ x_1\}, \{x_1, x_2 \}\}, \dots, x_n \}\}$\\
+        \end{enumerate}
+    \end{enumerate}
+
+\newpage
+\section{Bonus}
+    \begin{enumerate}
+        \item 
+    \end{enumerate}
+
+\end{document}

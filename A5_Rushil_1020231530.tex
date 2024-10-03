@@ -1,0 +1,430 @@
+\documentclass[a4paper]{article}
+\setlength{\topmargin}{-1.0in}
+\setlength{\oddsidemargin}{-0.2in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{10.5in}
+\setlength{\textwidth}{6.5in}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usetikzlibrary{graphs}
+\usepackage{xcolor}
+\definecolor{YellowOrange}{RGB}{255,174,66}
+
+\hbadness=10000
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Assignment 5},
+    pdfpagemode=FullScreen,
+    }
+\def\endproofmark{$\Box$}
+\newenvironment{proof}{\par{\bf Proof}:}{\endproofmark\smallskip}
+\begin{document}
+\begin{center}
+{\large \bf \color{red}  Department of Computer Science} \\
+{\large \bf \color{red}  Ashoka University} \\
+
+\vspace{0.1in}
+
+{\large \bf \color{blue}  Discrete Mathematics: CS-1104-1 \& CS-1104-2}
+
+\vspace{0.05in}
+
+    { \bf \color{YellowOrange} Assignment 5}
+\end{center}
+\medskip
+
+{\textbf{Collaborators:} None} \hfill {\textbf{Name: Rushil Gupta} }
+
+\bigskip
+\hrule
+
+
+\section{Straightforward}
+    \begin{enumerate}
+
+    % Represent the following graphs using Adjacency Matrix and Adjacency Lists.
+    \item \begin{enumerate}
+        \item \textbf{Adjacency Matrix:}
+            \[
+            \begin{bmatrix}
+                0 & 1 & 1 & 1 & 0 \\
+                1 & 0 & 0 & 1 & 0 \\
+                1 & 0 & 0 & 1 & 1 \\
+                1 & 1 & 1 & 0 & 1 \\
+                0 & 0 & 1 & 1 & 0 \\
+            \end{bmatrix}
+            \]
+            Note: The rows and columns are in the order D, E, J, G, K. \\
+
+            \textbf{Adjacency Lists:}
+            \begin{itemize}
+                \item D: [E, G, J]
+                \item E: [D, G]
+                \item J: [D, G, K]
+                \item G: [D, E, J, K]
+                \item K: [J, G]
+            \end{itemize}
+
+        % a: [b, f, g], b: [a, c], c: [b, d, f], d: [c, e], e: [d, f, g], f: [a, c, e], g: [a, e]
+        \item \textbf{Adjacency Matrix:}
+        \[
+            \begin{bmatrix}
+                0 & 1 & 0 & 0 & 0 & 1 & 1 \\
+                1 & 0 & 1 & 0 & 0 & 0 & 0 \\
+                0 & 1 & 0 & 1 & 0 & 1 & 0 \\
+                0 & 0 & 1 & 0 & 1 & 0 & 0 \\
+                0 & 0 & 0 & 1 & 0 & 1 & 1 \\
+                1 & 0 & 1 & 0 & 1 & 0 & 0 \\
+                1 & 0 & 0 & 0 & 1 & 0 & 0 \\
+            \end{bmatrix}
+        \]
+        Note: The rows and columns are in the order a, b, c, d, e, f, g. \\
+
+        \textbf{Adjacency Lists:}
+        \begin{itemize}
+            \item a: [b, f, g]
+            \item b: [a, c]
+            \item c: [b, d, f]
+            \item d: [c, e]
+            \item e: [d, f, g]
+            \item f: [a, c, e]
+            \item g: [a, e]
+        \end{itemize}
+        \end{enumerate}
+
+        \newpage
+        \item Let us consider the 6 people (5 + 1) at the party, including you. We will prove that there must exist a set of at least 3 people who all know each other, or all do not know each other. \\
+        
+        Consider the graph $G$ of the 6 people, where each person is a vertex and there is an edge between each pair of people. If the edge is red, it means that the two people know each other, and if the edge is blue, it means that the two people do not know each other. \\
+
+        Now, take any person $p$ at the party. There are 5 other people at the party. By the Pigeonhole Principle, there must be at least 3 people who know $p$ or 3 people who do not know $p$, meaning this vertex $p$ has a minimum of either 3 red edges or 3 blue edges. \\
+
+        Without loss of generality, let us assume that $p$ has 3 red edges. Now, consider the 3 people who know $p$, say $a$, $b$, and $c$. If any of these 3 vertices are connected, say $a$ and $b$, we know that $a$, $b$, and $p$ all know each other. If none of the 3 vertices are connected, then all 3 of them ($a$, $b$, and $c$) do not know each other. \\
+
+        Therefore, in the party, there are at least 3 people who either all know each other, or all do not know each other. \\
+        
+        \item \begin{itemize}
+            \item \(v_1\): Eccentricity 2, Path example: \(v_1 \rightarrow v_2 \rightarrow v_4\)
+            \item \(v_2\): Eccentricity 2, Path example: \(v_2 \rightarrow v_1 \rightarrow v_7\)
+            \item \(v_3\): Eccentricity 2, Path example: \(v_3 \rightarrow v_1 \rightarrow v_7\)
+            \item \(v_4\): Eccentricity 2, Path example: \(v_4 \rightarrow v_2 \rightarrow v_1\)
+            \item \(v_5\): Eccentricity 2, Path example: \(v_5 \rightarrow v_3 \rightarrow v_1\)
+            \item \(v_6\): Eccentricity 2, Path example: \(v_6 \rightarrow v_7 \rightarrow v_1\)
+            \item \(v_7\): Eccentricity 2, Path example: \(v_7 \rightarrow v_1 \rightarrow v_2\)
+            \item \(v_8\): Eccentricity 2, Path example: \(v_8 \rightarrow v_1 \rightarrow v_3\)
+        \end{itemize}
+
+        The diameter is defined to me the maximum eccentricity, which is clearly 2. Take any of the paths above as an example. \\
+
+        \item The chromatic number $\gamma (G)$ is 2. This happens when we have:\\
+        \[ V_1 = \{ A, B, C, G, H, I \} \text{ and } V_2 = \{ D, E, F \} \] \\
+
+        \item \begin{enumerate}
+            \item The graph $G$ is as follows:\\
+            \begin{tikzpicture}
+                \node[circle,draw] (1) at (0,0) {1};
+                \node[circle,draw] (2) at (0,2) {2};
+                \node[circle,draw] (3) at (2,2) {3};
+                \node[circle,draw] (4) at (2,0) {4};
+                \node[circle,draw] (5) at (4,1) {5};
+            
+                \draw (1) -- (2);
+                \draw (1) -- (3);
+                \draw (1) -- (4);
+                \draw (2) -- (3);
+                \draw (3) -- (4);
+                \draw (4) -- (5);
+            \end{tikzpicture} \\
+
+            \item \begin{itemize}
+                \item Tree 1:\\
+                \begin{tikzpicture}
+                \node[circle, draw] (1) at (0, 0) {1};
+                \node[circle, draw] (2) at (0, 2) {2};
+                \node[circle, draw] (3) at (2, 2) {3};
+                \node[circle, draw] (4) at (2, 0) {4};
+                \node[circle, draw] (5) at (4, 1) {5};
+                \draw (1) -- (2);
+                \draw (1) -- (3);
+                \draw (1) -- (4);
+                \draw (4) -- (5);
+                \end{tikzpicture} \\
+
+                \item Tree 2:\\
+                \begin{tikzpicture}
+                \node[circle, draw] (1) at (0, 0) {1};
+                \node[circle, draw] (2) at (0, 2) {2};
+                \node[circle, draw] (3) at (2, 2) {3};
+                \node[circle, draw] (4) at (2, 0) {4};
+                \node[circle, draw] (5) at (4, 1) {5};
+                \draw (1) -- (3);
+                \draw (1) -- (4);
+                \draw (2) -- (3);
+                \draw (4) -- (5);
+                \end{tikzpicture} \\
+
+                \item Tree 3:\\
+                \begin{tikzpicture}
+                \node[circle, draw] (1) at (0, 0) {1};
+                \node[circle, draw] (2) at (0, 2) {2};
+                \node[circle, draw] (3) at (2, 2) {3};
+                \node[circle, draw] (4) at (2, 0) {4};
+                \node[circle, draw] (5) at (4, 1) {5};
+                \draw (1) -- (2);
+                \draw (1) -- (4);
+                \draw (2) -- (3);
+                \draw (4) -- (5);
+                \end{tikzpicture} \\
+
+                \item Tree 4:\\
+                \begin{tikzpicture}
+                \node[circle, draw] (1) at (0, 0) {1};
+                \node[circle, draw] (2) at (0, 2) {2};
+                \node[circle, draw] (3) at (2, 2) {3};
+                \node[circle, draw] (4) at (2, 0) {4};
+                \node[circle, draw] (5) at (4, 1) {5};
+                \draw (1) -- (4);
+                \draw (2) -- (3);
+                \draw (3) -- (4);
+                \draw (4) -- (5);
+                \end{tikzpicture} \\
+
+                \item Tree 5:\\
+                \begin{tikzpicture}
+                \node[circle, draw] (1) at (0, 0) {1};
+                \node[circle, draw] (2) at (0, 2) {2};
+                \node[circle, draw] (3) at (2, 2) {3};
+                \node[circle, draw] (4) at (2, 0) {4};
+                \node[circle, draw] (5) at (4, 1) {5};
+                \draw (1) -- (3);
+                \draw (2) -- (3);
+                \draw (3) -- (4);
+                \draw (4) -- (5);
+                \end{tikzpicture} \\
+
+                \item Tree 6:\\
+                \begin{tikzpicture}
+                \node[circle, draw] (1) at (0, 0) {1};
+                \node[circle, draw] (2) at (0, 2) {2};
+                \node[circle, draw] (3) at (2, 2) {3};
+                \node[circle, draw] (4) at (2, 0) {4};
+                \node[circle, draw] (5) at (4, 1) {5};
+                \draw (1) -- (2);
+                \draw (1) -- (4);
+                \draw (3) -- (4);
+                \draw (4) -- (5);
+                \end{tikzpicture} \\
+
+                \item Tree 7:\\
+                \begin{tikzpicture}
+                \node[circle, draw] (1) at (0, 0) {1};
+                \node[circle, draw] (2) at (0, 2) {2};
+                \node[circle, draw] (3) at (2, 2) {3};
+                \node[circle, draw] (4) at (2, 0) {4};
+                \node[circle, draw] (5) at (4, 1) {5};
+                \draw (1) -- (2);
+                \draw (1) -- (3);
+                \draw (3) -- (4);
+                \draw (4) -- (5);
+                \end{tikzpicture} \\
+
+                \item Tree 8:\\
+                \begin{tikzpicture}
+                \node[circle, draw] (1) at (0, 0) {1};
+                \node[circle, draw] (2) at (0, 2) {2};
+                \node[circle, draw] (3) at (2, 2) {3};
+                \node[circle, draw] (4) at (2, 0) {4};
+                \node[circle, draw] (5) at (4, 1) {5};
+                \draw (1) -- (2);
+                \draw (2) -- (3);
+                \draw (3) -- (4);
+                \draw (4) -- (5);
+                \end{tikzpicture}
+            \end{itemize}
+
+            \newpage
+            \item The first group of isomorphic trees includes: Trees 1, 4, 5, and 6. \\
+            The second group of isomorphic trees includes: Trees 2, 3, 7, and 8. \\
+
+            \item A graph isomorphic to $G$ must preserve the vertex adjacencies. For $G$, vertices have the following degrees:
+            \begin{itemize}
+                \item Vertex 1 has degree 3.
+                \item Vertex 2 has degree 2.
+                \item Vertex 3 has degree 3.
+                \item Vertex 4 has degree 3.
+                \item Vertex 5 has degree 1.
+            \end{itemize}
+            
+            Note that vertices $1$ and $3$ can be swapped due to their identical degree and adjacency to common vertices. \\
+
+            Then, the number of isomorphic graphs = $\dfrac{|V|!}{2} = \dfrac{5!}{2} = 60$. \\
+        \end{enumerate}
+
+        \item \begin{enumerate}
+            \item Here is the tree of $W_4$ (A graph with 4 vertices, where $1 \rightarrow 2 \rightarrow 3 \rightarrow 1$ and all 1, 2, 3 are connected to 4): \\
+            \begin{tikzpicture}
+                % Define the style for the vertices                
+                % Draw the vertices
+                \node[circle, draw] (1) at (0,0) {1};
+                \node[circle, draw] (2) at (3, 0) {2};
+                \node[circle, draw] (3) at (1.5, 3) {3};
+                \node[circle, draw] (4) at (1.5, 1.25) {4}; 
+                
+                % Draw the edges of the cycle graph C3
+                \draw (1) -- (2) -- (3) -- (1);
+                
+                % Join the new vertex n to each vertex of C3
+                \draw (4) -- (1);
+                \draw (4) -- (2);
+                \draw (4) -- (3);
+            \end{tikzpicture}\\
+
+            Now, consider $K_4$, a graph with 4 vertices where each vertex is connected to every other vertex: \\
+            \begin{tikzpicture}
+                % Define the style for the vertices                
+                % Draw the vertices
+                \node[circle, draw] (1) at (0,0) {1};
+                \node[circle, draw] (2) at (3, 0) {2};
+                \node[circle, draw] (3) at (1.5, 3) {3};
+                \node[circle, draw] (4) at (1.5, 1.25) {4}; 
+                
+                % Draw the edges of the cycle graph C3
+                \draw (1) -- (2);
+                \draw (1) -- (3);
+                \draw (1) -- (4);
+                \draw (2) -- (3);
+                \draw (2) -- (4);
+                \draw (3) -- (4);
+            \end{tikzpicture}\\
+
+            Clearly, $W_4 = K_4$. \\ \\
+
+            % Prove that the chromatic number of Wn is 4 if n is even and 3 if n is odd.
+            \item Let us consider the case where $n$ is even. We know that $W_n$ is a graph with $n$ vertices, with the $n$th vertex connected to all other vertices. \\
+
+            So, the $n$th vertix must have a different color than all the other vertices. \\
+
+            Now, consider the other $n-1$ vertices. They are connected to each other in a circle. Since we have $n-1$ vertices, we can start to alternate the colors. \\
+
+            Since there are $n-1$ vertices, which is odd, we will start and end the circle's vertices with the same color, meaning that we would need a 3rd color for the circle. \\
+
+            Therefore, the chromatic number of $W_n$ is 4 if $n$ is even (3 for the circle and 1 for the $n$th vertex). \\
+
+            Similary, if $n$ is odd, the center will have a unique color, but the circle's vertices can be colored in 2 distinct colors, implying that the chromatic number of $W_n$ is 3 if $n$ is odd. \\
+        \end{enumerate}
+
+        \newpage
+        \item Consider the path:
+        \[ D \rightarrow A \rightarrow B \rightarrow E \rightarrow D \rightarrow F \rightarrow B \rightarrow C \rightarrow D \]
+        In this path, each edge of $G_5$ is covered, and since the path starts from $D$ and ends at $D$, it is an Eulerian cycle. Therefore, $G_5$ is Eulerian. \\
+        
+        \item \begin{enumerate}
+            \item Consider $B = V - S$. Since $S$ is an independent vertex set of $G$, we know the following:\\
+            \[ \text{For all } (u, v) \in E, \text{ there is at most one of the vertices in } S \]
+            \[ \text{For all } (u, v) \in E, \text{ there is at least one of the vertices in } B \]
+            $\therefore$ $B$ is a vertex cover of $G$. \\
+
+            \item Let $X$ be a minimum vertex cover of $G$ (so $|X| = \tau(G)$). \\
+
+            The set $V - X$ (all vertices not in the vertex cover) must be an independent set. This is because, if any two vertices in $V - X$ were adjacent, the edge between them wouldn't be covered by $X$, contradicting $X$ being a vertex cover.\\
+            
+            Now, since $X$ is a minimum vertex cover, $V - X$ is a maximum independent set (otherwise, we could find a smaller vertex cover). \\
+            
+            Therefore, $|V - X| = \alpha(G)$. We have $|X| + |V - X| = |V|$. \\
+            
+            Substituting, we get $\tau(G) + \alpha(G) = |V|$. \\
+        \end{enumerate}
+
+        % Consider the graph with the adjacency list: 1: [2, 4]; 2: [1, 3]; 3: [2, 4]; 4:[3, 1];
+        \item \begin{enumerate}
+            \item The independent sets of $G$ are as follows are only possible when considering diagonals. Therefore:\\
+
+            \begin{itemize}
+                \item Independent Set 1: $\{ 1, 3 \}$
+                \item Independent Set 2: $\{ 2, 4 \}$ \\
+            \end{itemize}
+
+            Clearly, $\alpha(G) = 2$ \\ \\
+
+            % Compute all the vertex covers of G and τ (G).
+            % A vertex cover is a set of vertices such that every edge in the graph has at least one endpoint in the vertex cover.  Vertex Covers: Considering the complementary sets of the maximum independent sets, since if one set of vertices form a maximum independent set, the rest must cover all edges. Complements of {1, 3} and {2, 4} are {2, 4} and {1, 3}, respectively. All vertices: {1, 2, 3, 4} Subsets including three vertices: {1, 2, 3}, {1, 3, 4}, {1, 2, 4}, {2, 3, 4} However, due to the structure of the graph, the smallest vertex covers are the pairs that are the complements of the maximum independent sets, i.e., {1, 3} or {2, 4}.  Minimum vertex cover  � ( � ) τ(G):  The minimum size of the vertex covers identified is 2. Hence,  � ( � ) = 2 τ(G)=2.
+            \item The vertex covers of $G$ are as follows: \\
+            \[ [\{ 1, 3 \}, \{ 2, 4 \}, \{ 1, 2 , 3 \}, \{ 1, 3, 4 \}, \{ 1, 2, 4 \}, \{ 2, 3, 4 \}, \{ 1, 2, 3, 4 \}] \]
+
+            Clearly, $\tau(G) = 2$. \\ \\
+        \end{enumerate}
+
+        \newpage
+        \item \begin{enumerate}
+            \item \begin{enumerate}[label=(\roman*)]
+                \item Diameter = 3
+                \item Center = \{ f \}
+                \item Radius = 2
+                \item $\omega(G_7) = 2$
+                \item $\chi(G_7) = 2$
+                \item $\alpha(G_7) = 4$
+                \item $\tau(G_7) = 3$ \\
+            \end{enumerate}
+
+            \item \begin{enumerate}[label=(\roman*)]
+                \item Diameter = 2
+                \item Center = \{ A, B, C, D, E, F \}
+                \item Radius = 2
+                \item $\omega(G_8) = 3$
+                \item $\chi(G_8) = 3$
+                \item $\alpha(G_8) = 3$
+                \item $\tau(G_8) = 3$ \\
+            \end{enumerate}
+
+            \item \begin{enumerate}[label=(\roman*)]
+                \item Diameter = 3
+                \item Center = \{ 0, 4 \}
+                \item Radius = 2
+                \item $\omega(G_9) = 3$
+                \item $\chi(G_9) = 3$
+                \item $\alpha(G_9) = 4$
+                \item $\tau(G_9) = 3$
+            \end{enumerate}
+        \end{enumerate}
+
+    \end{enumerate}
+
+\newpage
+\section{$\neg$Straightforward}
+    \begin{enumerate}
+        
+        \item \begin{enumerate}
+
+            \item \textbf{Depth-First Search:} \\
+            \[ 2 \rightarrow 1 \rightarrow 0 \rightarrow 3 \rightarrow 4 \rightarrow 6 \rightarrow 5 \]
+
+            \textbf{Breadth-First Search:} \\
+            \[ 2 \rightarrow 1 \rightarrow 3 \rightarrow 4 \rightarrow 5 \rightarrow 0 \rightarrow 6 \]
+
+            \item \textbf{Depth-First-Search:} \\
+            \[ 1 \rightarrow 2 \rightarrow 6 \rightarrow 7 \rightarrow 3 \rightarrow 4 \rightarrow 8 \rightarrow 5 \rightarrow 9 \]
+
+            \textbf{Breadth-First Search:} \\
+            \[ 1 \rightarrow 2 \rightarrow 4 \rightarrow 6 \rightarrow 3 \rightarrow 7 \rightarrow 8 \rightarrow 9 \rightarrow 5 \]
+
+        \end{enumerate}
+
+    \end{enumerate}
+
+\newpage
+\section{Bonus}
+    \begin{enumerate}
+        \item Here is a Hamiltonian cycle:\\
+        \includegraphics[width=0.7\linewidth]{"DM A5 Diagram 1.png"}
+    \end{enumerate}
+
+\end{document}
